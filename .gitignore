@@ -1,0 +1,63 @@
+## ================================
+## .gitignore for ERP (ASP.NET Core)
+## ================================
+## This file tells Git which files/folders to IGNORE (not track).
+## These are things that get auto-generated, are machine-specific,
+## or contain sensitive/runtime data that shouldn't go into source control.
+
+
+## ---- Build output ----
+## Created every time you build the project. Not source code, so no need to track it.
+bin/
+obj/
+
+
+## ---- Visual Studio files ----
+## Editor/IDE settings specific to your machine, not the project itself.
+.vs/
+*.user
+*.suo
+
+
+## ---- Rider / VS Code (in case you or teammates use them) ----
+.idea/
+.vscode/
+
+
+## ---- Uploaded files (resumes, documents, etc.) ----
+## These are runtime data created by users of the app, not code.
+## Keeping the folder structure but ignoring the actual files is common practice.
+wwwroot/uploads/*
+!wwwroot/uploads/.gitkeep
+
+
+## ---- Logs ----
+*.log
+logs/
+
+
+## ---- Sensitive / environment-specific settings ----
+## appsettings.Development.json often has local DB connection strings, API keys, etc.
+## Keep appsettings.json (with placeholder values) tracked, but ignore the local dev one.
+appsettings.Development.json
+appsettings.*.local.json
+
+
+## ---- Database files (if using local SQLite/LocalDB) ----
+*.mdf
+*.ldf
+*.db
+
+
+## ---- NuGet ----
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+## ---- Node/npm (if you ever add front-end tooling) ----
+node_modules/
+
+
+## ---- OS-generated files ----
+.DS_Store
+Thumbs.db
