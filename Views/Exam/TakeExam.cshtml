@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ERP.Models.Exam>
+
+<form asp-action="SubmitExam" method="post">
+    <input type="hidden" name="applicantId" value="@ViewBag.ApplicantId" />
+
+    @foreach (var q in Model)
+    {
+        <div class="mb-3">
+            <strong>@q.Question</strong>
+
+            <div><input type="radio" name="answers[@q.ExamId]" value="A" /> @q.OptionA</div>
+            <div><input type="radio" name="answers[@q.ExamId]" value="B" /> @q.OptionB</div>
+            <div><input type="radio" name="answers[@q.ExamId]" value="C" /> @q.OptionC</div>
+            <div><input type="radio" name="answers[@q.ExamId]" value="D" /> @q.OptionD</div>
+        </div>
+    }
+
+    <button class="btn btn-success">Submit Exam</button>
+</form>

@@ -1,0 +1,1147 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - ERP System</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <!-- Application CSS -->
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/ERP.styles.css"
+          asp-append-version="true" />
+
+    <style>
+
+        /* =========================================================
+                           GLOBAL
+                        ========================================================= */
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --secondary: #475569;
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --danger: #dc2626;
+            --dark: #0f172a;
+            --dark-2: #1e293b;
+            --body-bg: #f4f7fb;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --muted: #64748b;
+            --navbar-height: 70px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient( circle at top right, rgba(37, 99, 235, 0.06), transparent 35% ), var(--body-bg);
+            color: var(--text);
+            font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================================================
+                           NAVBAR
+                        ========================================================= */
+
+        .erp-navbar {
+            min-height: var(--navbar-height);
+            background: linear-gradient( 135deg, #0f172a 0%, #172554 45%, #1d4ed8 100% );
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.18);
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+        }
+
+
+        /* Brand */
+
+        .erp-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff !important;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: .4px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all .25s ease;
+        }
+
+            .erp-brand:hover {
+                background: rgba(255,255,255,.08);
+            }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: rgba(255,255,255,.14);
+            border: 1px solid rgba(255,255,255,.15);
+            font-size: 1.15rem;
+        }
+
+        .brand-text {
+            line-height: 1;
+        }
+
+        .brand-subtitle {
+            display: block;
+            margin-top: 4px;
+            font-size: .65rem;
+            font-weight: 400;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            opacity: .65;
+        }
+
+
+        /* Navbar links */
+
+        .erp-navbar .nav-link {
+            color: rgba(255,255,255,.78) !important;
+            font-size: .9rem;
+            font-weight: 500;
+            padding: 10px 13px !important;
+            margin: 0 2px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background .2s ease, color .2s ease, transform .2s ease;
+        }
+
+            .erp-navbar .nav-link:hover {
+                color: #ffffff !important;
+                background: rgba(255,255,255,.10);
+                transform: translateY(-1px);
+            }
+
+            .erp-navbar .nav-link.active {
+                color: #ffffff !important;
+                background: rgba(255,255,255,.14);
+                box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+            }
+
+
+            /* Navbar icons */
+
+            .erp-navbar .nav-link i {
+                font-size: 1rem;
+            }
+
+
+        /* Mobile menu button */
+
+        .erp-toggler {
+            border: 1px solid rgba(255,255,255,.25) !important;
+            padding: 7px 10px;
+            border-radius: 9px;
+        }
+
+            .erp-toggler:focus {
+                box-shadow: 0 0 0 .2rem rgba(255,255,255,.15);
+            }
+
+            .erp-toggler .navbar-toggler-icon {
+                filter: brightness(0) invert(1);
+            }
+
+
+        /* =========================================================
+                           USER PROFILE
+                        ========================================================= */
+
+        .user-toggle {
+            display: flex !important;
+            align-items: center;
+            gap: 9px;
+            padding: 5px 9px !important;
+            border-radius: 30px !important;
+            background: rgba(255,255,255,.07);
+        }
+
+            .user-toggle:hover {
+                background: rgba(255,255,255,.14) !important;
+            }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient( 135deg, #60a5fa, #2563eb );
+            color: #fff;
+            font-size: 1rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,.2);
+        }
+
+        .user-name {
+            max-width: 130px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+
+        /* Dropdown */
+
+        .erp-dropdown {
+            min-width: 220px;
+            padding: 8px;
+            margin-top: 10px !important;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #ffffff;
+            box-shadow: 0 15px 40px rgba(15,23,42,.15);
+        }
+
+            .erp-dropdown .dropdown-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 12px;
+                border-radius: 9px;
+                font-size: .9rem;
+                color: var(--text);
+                transition: all .2s ease;
+            }
+
+                .erp-dropdown .dropdown-item:hover {
+                    background: var(--primary-light);
+                    color: var(--primary);
+                }
+
+                .erp-dropdown .dropdown-item i {
+                    width: 20px;
+                    font-size: 1rem;
+                }
+
+            .erp-dropdown .logout-item:hover {
+                background: #fef2f2;
+                color: var(--danger);
+            }
+
+
+        /* =========================================================
+                           MAIN CONTENT
+                        ========================================================= */
+
+        .erp-main {
+            min-height: calc(100vh - var(--navbar-height));
+            padding: 32px 0 40px;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid rgba(226,232,240,.8);
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(15,23,42,.055);
+            padding: 28px;
+            min-height: 300px;
+        }
+
+
+        /* =========================================================
+                           BUTTONS
+                        ========================================================= */
+
+        .btn {
+            border-radius: 9px;
+            font-weight: 500;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+            .btn:hover {
+                transform: translateY(-1px);
+            }
+
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+            .btn-primary:hover {
+                background: var(--primary-dark);
+                border-color: var(--primary-dark);
+                box-shadow: 0 5px 15px rgba(37,99,235,.25);
+            }
+
+        .btn-soft-primary {
+            background: var(--primary-light);
+            color: var(--primary);
+            border: 1px solid #dbeafe;
+        }
+
+            .btn-soft-primary:hover {
+                background: #dbeafe;
+                color: var(--primary-dark);
+            }
+
+
+        /* =========================================================
+                           CARDS
+                        ========================================================= */
+
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(15,23,42,.05);
+            overflow: hidden;
+        }
+
+        .card-header {
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        /* =========================================================
+                           TABLE
+                        ========================================================= */
+
+        .table {
+            color: var(--text);
+        }
+
+            .table thead th {
+                background: #f8fafc;
+                color: #475569;
+                font-size: .78rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: .4px;
+                border-bottom: 1px solid var(--border);
+                padding: 13px;
+            }
+
+            .table tbody td {
+                padding: 13px;
+                border-color: #eef2f7;
+            }
+
+        .table-hover tbody tr:hover {
+            background: #f8fafc;
+        }
+
+
+        /* =========================================================
+                           BADGES
+                        ========================================================= */
+
+        .badge {
+            font-weight: 600;
+            border-radius: 7px;
+            padding: 6px 10px;
+        }
+
+
+        /* =========================================================
+                           FOOTER
+                        ========================================================= */
+
+        .erp-footer {
+            background: #ffffff;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            padding: 22px 0;
+            margin-top: auto;
+        }
+
+        .footer-brand {
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .footer-link {
+            color: var(--muted);
+            transition: color .2s ease;
+        }
+
+            .footer-link:hover {
+                color: var(--primary);
+            }
+
+
+        /* =========================================================
+                           PAGE LOADER
+                        ========================================================= */
+
+        #page-loader {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: rgba(248,250,252,.96);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+        }
+
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .loader-logo {
+            width: 65px;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+            background: linear-gradient( 135deg, #2563eb, #1e3a8a );
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 30px rgba(37,99,235,.3);
+            animation: loaderPulse 1.5s infinite;
+        }
+
+        .loader-spinner {
+            width: 34px;
+            height: 34px;
+            border: 3px solid #dbeafe;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: loaderSpin .8s linear infinite;
+        }
+
+        .loader-text {
+            color: #334155;
+            font-weight: 600;
+            font-size: .95rem;
+        }
+
+        .loader-subtext {
+            color: #94a3b8;
+            font-size: .75rem;
+        }
+
+
+        @@keyframes loaderSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @@keyframes loaderPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.06);
+            }
+        }
+
+
+        /* =========================================================
+                           RESPONSIVE DESIGN
+                        ========================================================= */
+
+        @@media (max-width: 991.98px) {
+
+            .erp-navbar .navbar-collapse {
+                margin-top: 12px;
+                padding: 12px;
+                background: rgba(15,23,42,.97);
+                border: 1px solid rgba(255,255,255,.08);
+                border-radius: 14px;
+            }
+
+            .erp-navbar .nav-link {
+                padding: 11px 12px !important;
+                margin: 2px 0;
+            }
+
+            .erp-navbar .navbar-nav {
+                width: 100%;
+            }
+
+            .user-toggle {
+                margin-top: 8px;
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .erp-dropdown {
+                width: 100%;
+                margin-top: 5px !important;
+            }
+
+            .erp-main {
+                padding-top: 20px;
+            }
+
+            .content-wrapper {
+                padding: 20px;
+            }
+        }
+
+
+        @@media (max-width: 767.98px) {
+
+            .erp-main {
+                padding: 15px 0 25px;
+            }
+
+            .content-wrapper {
+                padding: 15px;
+                border-radius: 14px;
+            }
+
+            .container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .table-responsive {
+                border-radius: 10px;
+            }
+
+            .erp-footer {
+                text-align: center;
+            }
+
+            .footer-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+
+
+        @@media (max-width: 575.98px) {
+
+            :root {
+                --navbar-height: 62px;
+            }
+
+            .erp-navbar {
+                min-height: 62px;
+            }
+
+            .erp-brand {
+                font-size: 1.05rem;
+                padding-left: 5px;
+            }
+
+            .brand-icon {
+                width: 34px;
+                height: 34px;
+            }
+
+            .brand-subtitle {
+                display: none;
+            }
+
+            .content-wrapper {
+                padding: 12px;
+                border-radius: 12px;
+            }
+
+            .erp-main {
+                padding-top: 12px;
+            }
+
+            .loader-logo {
+                width: 55px;
+                height: 55px;
+            }
+        }
+
+
+        /* =========================================================
+                           PAGE HEADER / BREADCRUMB BAR
+                        ========================================================= */
+
+        .header2 {
+            background: linear-gradient( 135deg, #0f172a 0%, #172554 45%, #1d4ed8 100% );
+            color: #ffffff;
+            padding: 14px 0;
+            margin-top:1px;
+        }
+
+            .header2 .page-header-inner {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .header2 .page-title {
+                font-size: 15px;
+                font-weight: 700;
+                letter-spacing: .3px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin: 0;
+            }
+
+                .header2 .page-title i {
+                    font-size: 1rem;
+                    opacity: .9;
+                }
+
+            .header2 .breadcrumb {
+                margin: 0;
+                background: transparent;
+                font-size: 12.5px;
+            }
+
+            .header2 .breadcrumb-item,
+            .header2 .breadcrumb-item a {
+                color: rgba(255,255,255,.72);
+            }
+
+                .header2 .breadcrumb-item a:hover {
+                    color: #ffffff;
+                }
+
+                .header2 .breadcrumb-item.active {
+                    color: #ffffff;
+                    font-weight: 600;
+                }
+
+                .header2 .breadcrumb-item + .breadcrumb-item::before {
+                    color: rgba(255,255,255,.45);
+                    content: "/";
+                }
+
+        @@media (max-width: 575.98px) {
+
+            .header2 .page-header-inner {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .header2 .page-title {
+                font-size: 13.5px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================================
+         PAGE LOADER
+    ========================================================== -->
+
+    <div id="page-loader">
+
+        <div class="loader-container">
+
+            <div class="loader-logo">
+                <i class="bi bi-buildings-fill"></i>
+            </div>
+
+            <div class="loader-spinner"></div>
+
+            <div class="loader-text">
+                Loading ERP System
+            </div>
+
+            <div class="loader-subtext">
+                Please wait...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================== -->
+
+    <header>
+
+        <nav class="navbar navbar-expand-lg erp-navbar">
+
+            <div class="container-fluid px-lg-4">
+
+                <!-- BRAND -->
+
+                <a class="erp-brand"
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <span class="brand-icon">
+                        <i class="bi bi-buildings-fill"></i>
+                    </span>
+
+                    <span class="brand-text">
+
+                        ERP
+
+                        <span class="brand-subtitle">
+                            Enterprise Resource Planning
+                        </span>
+
+                    </span>
+
+                </a>
+
+
+                <!-- MOBILE TOGGLE -->
+
+                <button class="navbar-toggler erp-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#erpNavbar"
+                        aria-controls="erpNavbar"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+
+                    <span class="navbar-toggler-icon"></span>
+
+                </button>
+
+
+                <!-- NAVIGATION -->
+
+                <div class="collapse navbar-collapse"
+                     id="erpNavbar">
+
+
+                    <!-- LEFT NAVIGATION -->
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index">
+
+                                <i class="bi bi-house-door"></i>
+
+                                Home
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Admin"
+                               asp-action="Dashboard">
+
+                                <i class="bi bi-person-gear"></i>
+
+                                Admin
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="HR"
+                               asp-action="Dashboard">
+
+                                <i class="bi bi-people"></i>
+
+                                HR
+
+                            </a>
+
+                        </li>
+
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Employee"
+                               asp-action="Dashboard">
+
+                                <i class="bi bi-person-badge"></i>
+
+                                Employee
+
+                            </a>
+
+                        </li>
+
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Applicant"
+                               asp-action="Jobs">
+
+                                <i class="bi bi-briefcase"></i>
+
+                                Applicant
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Privacy">
+
+                                <i class="bi bi-shield-check"></i>
+
+                                Privacy
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+
+                    <!-- =================================================
+                         RIGHT USER MENU
+                    ================================================== -->
+
+                    <ul class="navbar-nav ms-auto">
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+
+                            <li class="nav-item dropdown">
+
+                                <a class="nav-link dropdown-toggle user-toggle"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+
+                                    <span class="user-avatar">
+
+                                        <i class="bi bi-person-fill"></i>
+
+                                    </span>
+
+                                    <span class="user-name">
+
+                                        @User.Identity.Name
+
+                                    </span>
+
+                                </a>
+
+
+                                <ul class="dropdown-menu dropdown-menu-end erp-dropdown">
+
+
+                                    <li>
+
+                                        <div class="px-3 py-2">
+
+                                            <small class="text-muted">
+                                                Signed in as
+                                            </small>
+
+                                            <div class="fw-semibold text-dark text-truncate">
+                                                @User.Identity.Name
+                                            </div>
+
+                                        </div>
+
+                                    </li>
+
+
+                                    <li>
+                                        <hr class="dropdown-divider" />
+                                    </li>
+
+
+                                    <li>
+
+                                        <a class="dropdown-item logout-item"
+                                           asp-controller="Account"
+                                           asp-action="Logout">
+
+                                            <i class="bi bi-box-arrow-right"></i>
+
+                                            Logout
+
+                                        </a>
+
+                                    </li>
+
+                                </ul>
+
+                            </li>
+
+                        }
+                        else
+                        {
+
+                            <li class="nav-item">
+
+                                <a class="nav-link"
+                                   asp-controller="Account"
+                                   asp-action="Login">
+
+                                    <i class="bi bi-box-arrow-in-right"></i>
+
+                                    Login
+
+                                </a>
+
+                            </li>
+
+                        }
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================================
+         PAGE HEADER / BREADCRUMB  (e.g. "Admin / Dashboard", "Admin / Login")
+    ========================================================== -->
+    @{
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+
+        // Optional per-page overrides: set these in the view with
+        // @{ ViewData["Section"] = "Admin"; ViewData["Page"] = "Employees"; }
+        var sectionName = ViewData["Section"]?.ToString();
+        var pageName = ViewData["Page"]?.ToString();
+
+        if (string.IsNullOrEmpty(sectionName))
+        {
+            sectionName = currentController;
+        }
+
+        if (string.IsNullOrEmpty(pageName))
+        {
+            pageName = currentAction;
+        }
+
+        // icon per section/controller
+        var sectionIcon = sectionName?.ToLower() switch
+        {
+            "admin" => "bi-person-gear",
+            "hr" => "bi-people",
+            "employee" => "bi-person-badge",
+            "applicant" => "bi-briefcase",
+            "account" => "bi-shield-lock",
+            "exam" => "bi-pencil-square",
+            "home" => "bi-house-door",
+            _ => "bi-diagram-3"
+        };
+    }
+
+    <div class="header2">
+
+        <div class="container-fluid page-header-inner">
+
+            @* <div class="page-title">
+                <i class="bi @sectionIcon"></i>
+                @sectionName / @pageName
+            </div> *@
+
+            <nav aria-label="breadcrumb">
+
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+
+                    @if (!string.IsNullOrEmpty(sectionName) && !sectionName.Equals("Home", StringComparison.OrdinalIgnoreCase))
+                    {
+                        <li class="breadcrumb-item">
+                            <a asp-controller="@currentController" asp-action="@currentAction">@sectionName</a>
+                        </li>
+                    }
+
+                    <li class="breadcrumb-item active" aria-current="page">
+                        @pageName
+                    </li>
+
+                </ol>
+
+            </nav>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+    ========================================================== -->
+
+    <main class="erp-main">
+
+        <div class="container">
+
+            <div class="content-wrapper">
+
+                @RenderBody()
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer class="erp-footer">
+
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center footer-row">
+
+                <div>
+
+                    <span class="footer-brand">
+
+                        <i class="bi bi-buildings-fill me-1"></i>
+
+                        ERP System
+
+                    </span>
+
+                    <span class="ms-2">
+                        © @DateTime.Now.Year
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <a class="footer-link"
+                       asp-controller="Home"
+                       asp-action="Privacy">
+
+                        <i class="bi bi-shield-check me-1"></i>
+
+                        Privacy Policy
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            /* ------------------------------------------
+               Initial Page Loader
+            ------------------------------------------ */
+
+            setTimeout(function () {
+
+                $("#page-loader").fadeOut(350);
+
+            }, 500);
+
+
+            /* ------------------------------------------
+               AJAX Loader
+            ------------------------------------------ */
+
+            $(document).ajaxStart(function () {
+
+                $("#page-loader").fadeIn(200);
+
+            });
+
+
+            $(document).ajaxStop(function () {
+
+                $("#page-loader").fadeOut(200);
+
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>

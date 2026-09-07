@@ -1,0 +1,573 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    bool isAuthed = User.Identity?.IsAuthenticated == true;
+}
+
+<style>
+
+    /* =========================================================
+           HOME PAGE (uses the color tokens defined in _Layout.cshtml)
+           ========================================================= */
+
+    .hero-section {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        padding: 56px 40px;
+        margin-bottom: 36px;
+        background: linear-gradient(135deg, #0f172a 0%, #172554 45%, #1d4ed8 100%);
+        color: #fff;
+        box-shadow: 0 15px 40px rgba(15, 23, 42, .18);
+    }
+
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 85% 15%, rgba(255,255,255,.12), transparent 45%);
+            pointer-events: none;
+        }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.18);
+        color: #fff;
+        font-size: .78rem;
+        font-weight: 600;
+        letter-spacing: .5px;
+        text-transform: uppercase;
+        padding: 7px 14px;
+        border-radius: 30px;
+    }
+
+    .hero-title {
+        font-size: 2.4rem;
+        font-weight: 800;
+        margin: 18px 0 12px;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1.02rem;
+        color: rgba(255,255,255,.78);
+        max-width: 620px;
+        margin-bottom: 26px;
+    }
+
+    .hero-btn-primary {
+        background: #fff;
+        color: var(--primary-dark);
+        border: none;
+        font-weight: 600;
+        padding: 11px 22px;
+        border-radius: 10px;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+        .hero-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,.2);
+            color: var(--primary-dark);
+        }
+
+    .hero-btn-outline {
+        background: transparent;
+        color: #fff;
+        border: 1px solid rgba(255,255,255,.4);
+        font-weight: 600;
+        padding: 11px 22px;
+        border-radius: 10px;
+        transition: all .2s ease;
+    }
+
+        .hero-btn-outline:hover {
+            background: rgba(255,255,255,.1);
+            border-color: rgba(255,255,255,.6);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+    /* Stat strip */
+
+    .stat-card {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px 16px;
+        background: var(--card-bg);
+        text-align: center;
+        height: 100%;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(15,23,42,.07);
+        }
+
+    .stat-number {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--dark);
+    }
+
+    .stat-label {
+        font-size: .78rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        font-weight: 600;
+    }
+
+    /* Section headings */
+
+    .section-eyebrow {
+        color: var(--primary);
+        font-weight: 700;
+        font-size: .78rem;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--dark);
+        margin-top: 6px;
+        margin-bottom: 8px;
+    }
+
+    .section-desc {
+        color: var(--muted);
+        max-width: 640px;
+    }
+
+    /* Module cards */
+
+    .module-card {
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--card-bg);
+        padding: 24px;
+        height: 100%;
+        transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(15,23,42,.09);
+            border-color: #dbeafe;
+        }
+
+    .module-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        margin-bottom: 16px;
+        color: #fff;
+    }
+
+    .icon-hr {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    }
+
+    .icon-admin {
+        background: linear-gradient(135deg, #475569, #1e293b);
+    }
+
+    .icon-employee {
+        background: linear-gradient(135deg, #16a34a, #15803d);
+    }
+
+    .icon-applicant {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .icon-payroll {
+        background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    }
+
+    .icon-exam {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+    }
+
+    .module-title {
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--dark);
+        margin-bottom: 6px;
+    }
+
+    .module-desc {
+        color: var(--muted);
+        font-size: .88rem;
+        margin-bottom: 14px;
+    }
+
+    .module-link {
+        font-size: .85rem;
+        font-weight: 600;
+        color: var(--primary);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+        .module-link:hover {
+            color: var(--primary-dark);
+            gap: 9px;
+        }
+
+    /* Why us / checklist */
+
+    .why-card {
+        background: var(--primary-light);
+        border: 1px solid #dbeafe;
+        border-radius: 16px;
+        padding: 26px;
+        height: 100%;
+    }
+
+    .check-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+        .check-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .check-item i {
+            color: var(--success);
+            font-size: 1.15rem;
+            margin-top: 2px;
+        }
+
+        .check-item strong {
+            display: block;
+            color: var(--dark);
+            font-size: .92rem;
+        }
+
+        .check-item span {
+            color: var(--muted);
+            font-size: .85rem;
+        }
+
+    /* CTA banner */
+
+    .cta-banner {
+        background: linear-gradient(135deg, #1d4ed8, #2563eb);
+        border-radius: 18px;
+        padding: 36px 32px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 18px;
+        margin-top: 44px;
+    }
+
+    .cta-title {
+        font-weight: 800;
+        font-size: 1.3rem;
+        margin-bottom: 4px;
+    }
+
+    .cta-desc {
+        color: rgba(255,255,255,.82);
+        font-size: .9rem;
+    }
+
+    @@media (max-width: 767.98px) {
+        .hero-section {
+            padding: 34px 22px;
+        }
+
+        .hero-title {
+            font-size: 1.7rem;
+        }
+
+        .cta-banner {
+            padding: 26px 22px;
+            justify-content: center;
+            text-align: center;
+        }
+    }
+
+</style>
+
+
+<!-- =========================================================
+     HERO
+========================================================== -->
+
+<section class="hero-section">
+
+    <span class="hero-badge">
+        <i class="bi bi-buildings-fill"></i>
+        Enterprise Resource Planning
+    </span>
+
+    <h1 class="hero-title">
+        One platform to run your entire workforce
+    </h1>
+
+    <p class="hero-subtitle">
+        This ERP System brings HR, Admin, Payroll, Recruitment and Employee
+        self-service together in a single, easy-to-use dashboard — built with
+        ASP.NET Core MVC and designed for speed, clarity, and control.
+    </p>
+
+    <div class="d-flex gap-3 flex-wrap position-relative">
+
+        @if (isAuthed)
+        {
+            <a class="btn hero-btn-primary" asp-controller="Employee" asp-action="Dashboard">
+                <i class="bi bi-speedometer2 me-1"></i> Go to Dashboard
+            </a>
+        }
+        else
+        {
+            <a class="btn hero-btn-primary" asp-controller="Account" asp-action="Login">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Login to Continue
+            </a>
+        }
+
+        <a class="btn hero-btn-outline" asp-controller="Applicant" asp-action="Jobs">
+            <i class="bi bi-briefcase me-1"></i> View Open Positions
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     STAT STRIP
+========================================================== -->
+
+<div class="row g-3 mb-5">
+
+    <div class="col-6 col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">5+</div>
+            <div class="stat-label">Core Modules</div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Web Based</div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Self Service Access</div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">1</div>
+            <div class="stat-label">Unified Dashboard</div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MODULES
+========================================================== -->
+
+<div class="mb-4">
+    <div class="section-eyebrow">What's inside</div>
+    <div class="section-title">Everything your organization needs</div>
+    <p class="section-desc">
+        Every department works from the same system — no spreadsheets, no
+        duplicate data entry, no lost paperwork.
+    </p>
+</div>
+
+<div class="row g-4 mb-5">
+
+    <div class="col-md-6 col-lg-4">
+        <div class="module-card">
+            <div class="module-icon icon-hr"><i class="bi bi-people-fill"></i></div>
+            <div class="module-title">HR Management</div>
+            <div class="module-desc">
+                Manage employee records, departments, leave requests and job
+                openings from one HR dashboard.
+            </div>
+            <a class="module-link" asp-controller="HR" asp-action="Dashboard">
+                Open HR Panel <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="module-card">
+            <div class="module-icon icon-admin"><i class="bi bi-person-gear"></i></div>
+            <div class="module-title">Admin Control</div>
+            <div class="module-desc">
+                Oversee HR staff, departments, employees and leave approvals
+                with full administrative control.
+            </div>
+            <a class="module-link" asp-controller="Admin" asp-action="Dashboard">
+                Open Admin Panel <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="module-card">
+            <div class="module-icon icon-employee"><i class="bi bi-person-badge"></i></div>
+            <div class="module-title">Employee Self-Service</div>
+            <div class="module-desc">
+                Employees can view their profile, check salary details, and
+                apply for or track leave requests.
+            </div>
+            <a class="module-link" asp-controller="Employee" asp-action="Dashboard">
+                Open Employee Portal <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="module-card">
+            <div class="module-icon icon-applicant"><i class="bi bi-briefcase-fill"></i></div>
+            <div class="module-title">Recruitment</div>
+            <div class="module-desc">
+                Post job openings, accept applications, and take shortlisted
+                candidates through an online exam.
+            </div>
+            <a class="module-link" asp-controller="Applicant" asp-action="Jobs">
+                View Job Openings <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="module-card">
+            <div class="module-icon icon-payroll"><i class="bi bi-cash-coin"></i></div>
+            <div class="module-title">Payroll</div>
+            <div class="module-desc">
+                Generate payrolls and give every employee instant access to
+                their salary history.
+            </div>
+            <a class="module-link" asp-controller="Employee" asp-action="MySalary">
+                View Salary <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="module-card">
+            <div class="module-icon icon-exam"><i class="bi bi-pencil-square"></i></div>
+            <div class="module-title">Online Exams</div>
+            <div class="module-desc">
+                Screen applicants with configurable online exams as part of
+                the hiring workflow.
+            </div>
+            <a class="module-link" asp-controller="Applicant" asp-action="Jobs">
+                Learn More <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     WHY THIS SYSTEM
+========================================================== -->
+
+<div class="row g-4 align-items-stretch mb-3">
+
+    <div class="col-lg-5">
+        <div class="section-eyebrow">Why this ERP</div>
+        <div class="section-title">Built to keep every department in sync</div>
+        <p class="section-desc">
+            HR, Admin and Employees all work from the same live data, so
+            approvals, records and payroll never fall out of step.
+        </p>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="why-card">
+
+            <div class="check-item">
+                <i class="bi bi-check-circle-fill"></i>
+                <div>
+                    <strong>Role-based dashboards</strong>
+                    <span>Admins, HR staff and employees each get a workspace built for their role.</span>
+                </div>
+            </div>
+
+            <div class="check-item">
+                <i class="bi bi-check-circle-fill"></i>
+                <div>
+                    <strong>End-to-end hiring</strong>
+                    <span>From job posting to application, exam and onboarding, in one flow.</span>
+                </div>
+            </div>
+
+            <div class="check-item">
+                <i class="bi bi-check-circle-fill"></i>
+                <div>
+                    <strong>Transparent leave &amp; payroll</strong>
+                    <span>Employees track leave status and salary history without asking HR directly.</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     CTA BANNER
+========================================================== -->
+
+<div class="cta-banner">
+
+    <div>
+        <div class="cta-title">Ready to get started?</div>
+        <div class="cta-desc">Sign in to access your dashboard, or browse current job openings.</div>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+
+        @if (!isAuthed)
+        {
+            <a class="btn hero-btn-primary" asp-controller="Account" asp-action="Login">
+                Login
+            </a>
+            <a class="btn hero-btn-outline" asp-controller="Account" asp-action="Register">
+                Register
+            </a>
+        }
+        else
+        {
+            <a class="btn hero-btn-primary" asp-controller="Employee" asp-action="Profile">
+                My Profile
+            </a>
+        }
+
+    </div>
+
+</div>

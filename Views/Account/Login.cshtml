@@ -1,0 +1,520 @@
+﻿@model ERP.Models.LoginVM
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="auth-page">
+
+    <div class="container-fluid">
+
+        <div class="row min-vh-100">
+
+            <!-- LEFT BRANDING SECTION -->
+            <div class="col-lg-6 d-none d-lg-flex auth-brand">
+
+                <div class="brand-content">
+
+                    <div class="brand-logo">
+                        <i class="bi bi-building"></i>
+                    </div>
+
+                    <h1>
+                        ERP Management System
+                    </h1>
+
+                    <p>
+                        Manage your organization's employees,
+                        departments, payroll, recruitment and
+                        daily operations from one powerful platform.
+                    </p>
+
+                    <div class="brand-features">
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Employee Management
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Recruitment Management
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Payroll Management
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Leave Management
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGIN SECTION -->
+            <div class="col-lg-6 d-flex align-items-center justify-content-center">
+
+                <div class="login-wrapper">
+
+                    <!-- Mobile Logo -->
+                    <div class="mobile-brand d-lg-none text-center mb-4">
+
+                        <div class="mobile-logo">
+                            <i class="bi bi-building"></i>
+                        </div>
+
+                        <h4 class="mt-3 fw-bold">
+                            ERP Management System
+                        </h4>
+
+                    </div>
+
+
+                    <div class="login-card">
+
+                        <!-- Header -->
+                        <div class="text-center mb-4">
+
+                            <div class="login-icon">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+
+                            <h2 class="login-title">
+                                Welcome Back
+                            </h2>
+
+                            <p class="login-subtitle">
+                                Sign in to access your ERP account
+                            </p>
+
+                        </div>
+
+
+                        <!-- FORM -->
+                        <form asp-action="Login" method="post">
+
+                            <div asp-validation-summary="All"
+                                 class="alert alert-danger"
+                                 role="alert">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            </div>
+
+
+                            <!-- USERNAME -->
+                            <div class="form-group">
+
+                                <label asp-for="UserName">
+                                    Username
+                                </label>
+
+                                <div class="input-wrapper">
+
+                                    <i class="bi bi-person"></i>
+
+                                    <input asp-for="UserName"
+                                           class="form-control"
+                                           placeholder="Enter your username"
+                                           autocomplete="username" />
+
+                                </div>
+
+                                <span asp-validation-for="UserName"
+                                      class="text-danger small">
+                                </span>
+
+                            </div>
+
+
+                            <!-- PASSWORD -->
+                            <div class="form-group">
+
+                                <div class="d-flex justify-content-between">
+
+                                    <label asp-for="Password">
+                                        Password
+                                    </label>
+
+                                </div>
+
+                                <div class="input-wrapper">
+
+                                    <i class="bi bi-lock"></i>
+
+                                    <input asp-for="Password"
+                                           type="password"
+                                           id="password"
+                                           class="form-control"
+                                           placeholder="Enter your password"
+                                           autocomplete="current-password" />
+
+                                    <button type="button"
+                                            class="password-toggle"
+                                            onclick="togglePassword()">
+
+                                        <i class="bi bi-eye"
+                                           id="passwordIcon"></i>
+
+                                    </button>
+
+                                </div>
+
+                                <span asp-validation-for="Password"
+                                      class="text-danger small">
+                                </span>
+
+                            </div>
+
+
+                            <!-- LOGIN BUTTON -->
+                            <button type="submit"
+                                    class="btn login-btn w-100">
+
+                                <i class="bi bi-box-arrow-in-right me-2"></i>
+
+                                Sign In
+
+                            </button>
+
+                        </form>
+
+
+                        <!-- REGISTER -->
+                        <div class="register-section">
+
+                            <span>
+                                Don't have an account?
+                            </span>
+
+                            <a asp-action="Register">
+                                Create Account
+                            </a>
+
+                        </div>
+
+
+                        <!-- SECURITY -->
+                        <div class="security-note">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            <span>
+                                Your information is securely protected.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .auth-page {
+        min-height: 100vh;
+        background: #f5f7fb;
+    }
+
+    /* =========================
+           LEFT BRANDING
+        ========================= */
+
+    .auth-brand {
+        background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.12), transparent 30%), radial-gradient(circle at 80% 80%, rgba(255,255,255,.08), transparent 30%), linear-gradient(135deg,#172554,#312e81,#4c1d95);
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .brand-content {
+        max-width: 550px;
+        margin: auto;
+        padding: 50px;
+    }
+
+    .brand-logo {
+        width: 70px;
+        height: 70px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,.12);
+        backdrop-filter: blur(10px);
+        font-size: 32px;
+        margin-bottom: 30px;
+    }
+
+    .brand-content h1 {
+        font-size: 3rem;
+        font-weight: 750;
+        line-height: 1.15;
+    }
+
+    .brand-content p {
+        color: rgba(255,255,255,.75);
+        font-size: 1.05rem;
+        line-height: 1.8;
+        margin-top: 20px;
+    }
+
+    .brand-features {
+        margin-top: 35px;
+    }
+
+        .brand-features div {
+            margin: 15px 0;
+            color: rgba(255,255,255,.9);
+        }
+
+        .brand-features i {
+            color: #a5b4fc;
+            margin-right: 12px;
+        }
+
+    /* =========================
+           LOGIN
+        ========================= */
+
+    .login-wrapper {
+        width: 100%;
+        max-width: 480px;
+        padding: 30px;
+    }
+
+    .login-card {
+        background: white;
+        border-radius: 24px;
+        padding: 42px;
+        box-shadow: 0 20px 60px rgba(15,23,42,.10);
+        border: 1px solid #eef0f5;
+    }
+
+    .login-icon,
+    .mobile-logo {
+        width: 68px;
+        height: 68px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 18px;
+        background: linear-gradient(135deg,#eef2ff,#ede9fe);
+        color: #4f46e5;
+        font-size: 30px;
+    }
+
+    .login-title {
+        margin-top: 22px;
+        font-weight: 750;
+        color: #172033;
+    }
+
+    .login-subtitle {
+        color: #64748b;
+        margin-top: 8px;
+    }
+
+    /* =========================
+           FORM
+        ========================= */
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: .9rem;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+        .input-wrapper > i {
+            position: absolute;
+            left: 15px;
+            color: #64748b;
+            z-index: 2;
+        }
+
+        .input-wrapper .form-control {
+            height: 50px;
+            border-radius: 12px;
+            border: 1px solid #dbe1ea;
+            padding-left: 45px;
+            padding-right: 45px;
+            transition: .2s;
+        }
+
+            .input-wrapper .form-control:focus {
+                border-color: #6366f1;
+                box-shadow: 0 0 0 4px rgba(99,102,241,.1);
+            }
+
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        border: none;
+        background: transparent;
+        color: #64748b;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    /* =========================
+           BUTTON
+        ========================= */
+
+    .login-btn {
+        height: 52px;
+        border-radius: 12px;
+        background: linear-gradient( 135deg, #4f46e5, #7c3aed );
+        color: white;
+        font-weight: 600;
+        border: none;
+        box-shadow: 0 8px 20px rgba(79,70,229,.25);
+        transition: .25s;
+    }
+
+        .login-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(79,70,229,.35);
+        }
+
+    /* =========================
+           REGISTER
+        ========================= */
+
+    .register-section {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 22px;
+        border-top: 1px solid #eef0f5;
+        color: #64748b;
+        font-size: .9rem;
+    }
+
+        .register-section a {
+            color: #4f46e5;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+            .register-section a:hover {
+                text-decoration: underline;
+            }
+
+    /* =========================
+           SECURITY
+        ========================= */
+
+    .security-note {
+        margin-top: 20px;
+        padding: 12px;
+        border-radius: 10px;
+        background: #f8fafc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: #64748b;
+        font-size: .78rem;
+    }
+
+        .security-note i {
+            color: #10b981;
+        }
+
+    /* =========================
+           VALIDATION
+        ========================= */
+
+    .validation-summary-valid {
+        display: none;
+    }
+
+    /* =========================
+           MOBILE
+        ========================= */
+
+    @@media (max-width: 576px) {
+
+        .login-wrapper {
+            padding: 18px;
+        }
+
+        .login-card {
+            padding: 28px 22px;
+            border-radius: 20px;
+        }
+
+        .login-title {
+            font-size: 1.65rem;
+        }
+    }
+
+</style>
+
+
+<script>
+
+    function togglePassword() {
+
+        const password = document.getElementById("password");
+        const icon = document.getElementById("passwordIcon");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            icon.classList.remove("bi-eye");
+            icon.classList.add("bi-eye-slash");
+
+        }
+        else {
+
+            password.type = "password";
+
+            icon.classList.remove("bi-eye-slash");
+            icon.classList.add("bi-eye");
+
+        }
+
+    }
+
+</script>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

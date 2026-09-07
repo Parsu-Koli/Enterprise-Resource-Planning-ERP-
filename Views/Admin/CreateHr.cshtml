@@ -1,0 +1,397 @@
+﻿@model ERP.Models.HRModel
+
+@{
+    ViewData["Title"] = "Create HR";
+}
+
+<div class="container-fluid py-4 py-lg-5">
+
+    <!-- Header -->
+    <div class="mb-4">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div class="page-icon">
+                <i class="bi bi-person-badge-fill"></i>
+            </div>
+
+            <div>
+                <h2 class="fw-bold mb-1">Create HR Account</h2>
+
+                <p class="text-muted mb-0">
+                    Create login credentials and HR profile information
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-xl-9">
+
+            <div class="card border-0 shadow-sm modern-card">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <form asp-action="CreateHr"
+                          asp-controller="Admin"
+                          method="post"
+                          enctype="multipart/form-data">
+
+                        @Html.AntiForgeryToken()
+
+
+                        <!-- LOGIN SECTION -->
+
+                        <div class="section-title mb-4">
+
+                            <div class="section-icon">
+                                <i class="bi bi-shield-lock-fill"></i>
+                            </div>
+
+                            <div>
+                                <h5 class="fw-bold mb-1">
+                                    Login Credentials
+                                </h5>
+
+                                <small class="text-muted">
+                                    Information used to access the ERP system
+                                </small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row g-4 mb-5">
+
+                            <!-- Username -->
+                            <div class="col-12 col-md-6">
+
+                                <label class="form-label fw-semibold">
+                                    Username
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+
+                                    <input name="userName"
+                                           class="form-control"
+                                           placeholder="Enter username"
+                                           required />
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Email -->
+                            <div class="col-12 col-md-6">
+
+                                <label class="form-label fw-semibold">
+                                    Email Address
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+
+                                    <input name="email"
+                                           type="email"
+                                           class="form-control"
+                                           placeholder="name@company.com"
+                                           required />
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Password -->
+                            <div class="col-12 col-md-6">
+
+                                <label class="form-label fw-semibold">
+                                    Password
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+
+                                    <input name="password"
+                                           type="password"
+                                           class="form-control"
+                                           placeholder="Create password"
+                                           required />
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="section-divider"></div>
+
+
+                        <!-- HR PROFILE -->
+
+                        <div class="section-title mb-4">
+
+                            <div class="section-icon">
+                                <i class="bi bi-person-vcard-fill"></i>
+                            </div>
+
+                            <div>
+                                <h5 class="fw-bold mb-1">
+                                    HR Profile
+                                </h5>
+
+                                <small class="text-muted">
+                                    Professional information of the HR employee
+                                </small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row g-4">
+
+                            <!-- First Name -->
+                            <div class="col-12 col-md-6">
+
+                                <label asp-for="FirstName"
+                                       class="form-label fw-semibold">
+                                    First Name
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+
+                                    <input asp-for="FirstName"
+                                           class="form-control"
+                                           placeholder="First name" />
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Last Name -->
+                            <div class="col-12 col-md-6">
+
+                                <label asp-for="LastName"
+                                       class="form-label fw-semibold">
+                                    Last Name
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person"></i>
+                                    </span>
+
+                                    <input asp-for="LastName"
+                                           class="form-control"
+                                           placeholder="Last name" />
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Qualification -->
+                            <div class="col-12 col-md-6">
+
+                                <label asp-for="Qualification"
+                                       class="form-label fw-semibold">
+                                    Qualification
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-mortarboard"></i>
+                                    </span>
+
+                                    <input asp-for="Qualification"
+                                           class="form-control"
+                                           placeholder="e.g. MBA HR" />
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Experience -->
+                            <div class="col-12 col-md-6">
+
+                                <label asp-for="Experience"
+                                       class="form-label fw-semibold">
+                                    Experience
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-briefcase"></i>
+                                    </span>
+
+                                    <input asp-for="Experience"
+                                           type="number"
+                                           min="0"
+                                           class="form-control"
+                                           placeholder="Years" />
+
+                                    <span class="input-group-text">
+                                        Years
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Resume -->
+                            <div class="col-12">
+
+                                <label asp-for="ResumeFile"
+                                       class="form-label fw-semibold">
+                                    Resume
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-file-earmark-pdf"></i>
+                                    </span>
+
+                                    <input asp-for="ResumeFile"
+                                           type="file"
+                                           class="form-control" />
+
+                                </div>
+
+                                <small class="text-muted">
+                                    PDF format recommended.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="d-flex flex-column flex-sm-row justify-content-end gap-2 border-top mt-5 pt-4">
+
+                            <a asp-action="Dashboard"
+                               class="btn btn-light border px-4">
+
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Cancel
+
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary px-4">
+
+                                <i class="bi bi-person-plus-fill me-1"></i>
+                                Create HR Account
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .page-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 13px;
+        background: #e8efff;
+        color: #3157c8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 23px;
+    }
+
+    .modern-card {
+        border-radius: 18px;
+        overflow: hidden;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .section-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: #f0f4ff;
+        color: #3157c8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+        flex-shrink: 0;
+    }
+
+    .section-divider {
+        height: 1px;
+        background: #e9ecef;
+        margin-bottom: 35px;
+    }
+
+    .form-control,
+    .input-group-text {
+        border-color: #e1e5eb;
+    }
+
+    .input-group-text {
+        background: #f8f9fb;
+        color: #64748b;
+        min-width: 48px;
+        justify-content: center;
+    }
+
+    .form-control:focus {
+        border-color: #6685e8;
+        box-shadow: 0 0 0 .2rem rgba(49, 87, 200, .10);
+    }
+
+    .btn {
+        border-radius: 9px;
+        font-weight: 600;
+    }
+
+</style>

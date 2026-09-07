@@ -1,0 +1,157 @@
+﻿@model IEnumerable<ERP.Models.Applicant>
+
+<div class="container py-5">
+    <!-- Card Wrapper -->
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <!-- Card Header -->
+        <div class="card-header bg-gradient text-white p-4 rounded-top-4" style="background: linear-gradient(90deg, #1e3c72, #2a5298);">
+            <h4 class="mb-0">
+                <i class="bi bi-people-fill me-2"></i>Job Applicants
+            </h4>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body p-4">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>
+                                <i class="bi bi-person text-primary me-2"></i>User
+                            </th>
+                            <th>
+                                <i class="bi bi-briefcase text-primary me-2"></i>Job
+                            </th>
+                            <th>
+                                <i class="bi bi-mortarboard text-primary me-2"></i>Qualification
+                            </th>
+                            <th>
+                                <i class="bi bi-calendar-event text-primary me-2"></i>Experience
+                            </th>
+                            <th>
+                                <i class="bi bi-file-text text-primary me-2"></i>Resume
+                            </th>
+                            <th>
+                                <i class="bi bi-info-circle text-primary me-2"></i>Status
+                            </th>
+                            <th class="text-center">
+                                <i class="bi bi-gear text-primary me-2"></i>Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            @foreach (var a in Model)
+                            {
+                                var employeeId = a.User != null ? a.User.UserId : 0;
+
+                                <tr>
+                                    <td class="fw-semibold">@a.User?.UserName</td>
+                                    <td>@a.JobOpening?.JobTitle</td>
+                                    <td>@a.Qualification</td>
+                                    <td>
+                                        <span class="badge bg-secondary px-3 py-2">
+                                            @a.Experience yrs
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(a.ResumePath))
+                                        {
+                                            <a href="@a.ResumePath"
+                                               target="_blank"
+                                               class="btn btn-sm btn-outline-primary shadow-sm">
+                                                <i class="bi bi-file-earmark-pdf me-1"></i>View
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted small">N/A</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-info text-dark px-3 py-2">@a.Status</span>
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        @if (a.User.Role == "Applicant")
+                                        {
+                                            <a asp-controller="HR"
+                                               asp-action="CreateEmployee"
+                                               asp-route-applicantId="@a.ApplicantId"
+                                               class="btn btn-sm btn-success shadow-sm mb-1">
+                                                <i class="bi bi-person-plus-fill me-1"></i>
+                                                Create
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success d-block mb-1">
+                                                <i class="bi bi-check-circle me-1"></i>
+                                                Created
+                                            </span>
+
+                                            <a asp-controller="HR"
+                                               asp-action="ViewEmployee"
+                                               asp-route-id="@a.User!.UserId"
+                                               class="btn btn-sm btn-primary shadow-sm mb-1"
+                                               title="View Details">
+                                                <i class="bi bi-eye me-1"></i>
+                                                View
+                                            </a>
+
+                                            <a asp-controller="HR"
+                                               asp-action="EditEmployee"
+                                               asp-route-id="@a.User!.UserId"
+                                               class="btn btn-sm btn-warning shadow-sm mb-1"
+                                               title="Edit Details">
+                                                <i class="bi bi-pencil me-1"></i>
+                                                Edit
+                                            </a>
+                                        }
+
+                                        @if (a.Status == "Applied")
+                                        {
+                                            <a asp-controller="HR"
+                                               asp-action="SendExam"
+                                               asp-route-applicantId="@a.ApplicantId"
+                                               class="btn btn-sm btn-info shadow-sm mb-1"
+                                               title="Conduct Exam">
+                                                <i class="bi bi-pencil-square me-1"></i>
+                                                Exam
+                                            </a>
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-4">
+                                    <i class="bi bi-inbox fs-4 me-2"></i>No applicants found.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+        <div class="card-footer bg-light text-center rounded-bottom-4 p-3">
+            <small class="text-muted">ERP System © @DateTime.Now.Year</small>
+        </div>
+
+    </div>
+</div>
+
+ 
+

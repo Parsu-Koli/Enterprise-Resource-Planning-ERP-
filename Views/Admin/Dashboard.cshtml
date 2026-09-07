@@ -1,0 +1,209 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container-fluid py-4 px-3 px-lg-4">
+
+    <!-- Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+
+        <div>
+            <span class="text-primary fw-semibold small text-uppercase">
+                Administration
+            </span>
+
+            <h2 class="fw-bold mb-1">
+                <i class="bi bi-speedometer2 text-primary me-2"></i>
+                Admin Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+                Manage employees, HR, departments and leave requests.
+            </p>
+        </div>
+
+        <div class="admin-date">
+            <i class="bi bi-calendar3 me-2"></i>
+            @DateTime.Now.ToString("dd MMM yyyy")
+        </div>
+
+    </div>
+
+
+    <!-- Dashboard Cards -->
+    <div class="row g-4">
+
+        <!-- Departments -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <a asp-action="Departments" class="text-decoration-none">
+                <div class="admin-card h-100">
+
+                    <div class="icon-container bg-primary-subtle text-primary">
+                        <i class="bi bi-diagram-3-fill"></i>
+                    </div>
+
+                    <div>
+                        <h5>Departments</h5>
+                        <p>Manage company departments and organizational structure.</p>
+                    </div>
+
+                    <div class="card-arrow">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+
+
+
+        <!-- Employees -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <a asp-action="Employees" class="text-decoration-none">
+                <div class="admin-card h-100">
+
+                    <div class="icon-container bg-warning-subtle text-warning">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+
+                    <div>
+                        <h5>Employees</h5>
+                        <p>View and manage employee information.</p>
+                    </div>
+
+                    <div class="card-arrow">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+
+
+        <!-- HR List -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <a asp-action="HRList" class="text-decoration-none">
+                <div class="admin-card h-100">
+
+                    <div class="icon-container bg-danger-subtle text-danger">
+                        <i class="bi bi-person-badge-fill"></i>
+                    </div>
+
+                    <div>
+                        <h5>HR Management</h5>
+                        <p>View, edit and manage HR profiles.</p>
+                    </div>
+
+                    <div class="card-arrow">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+
+
+
+        <!-- Leave Requests -->
+        <div class="col-12 col-sm-6 col-xl-4">
+            <a asp-action="LeaveRequests" class="text-decoration-none">
+                <div class="admin-card h-100">
+
+                    <div class="icon-container bg-success-subtle text-success">
+                        <i class="bi bi-calendar-check-fill"></i>
+                    </div>
+
+                    <div>
+                        <h5>Leave Requests</h5>
+                        <p>Review, approve or reject employee leave requests.</p>
+                    </div>
+
+                    <div class="card-arrow">
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .admin-date {
+        background: white;
+        border: 1px solid #e9ecef;
+        padding: 10px 16px;
+        border-radius: 12px;
+        color: #6c757d;
+        font-size: 14px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.04);
+    }
+
+    .admin-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 28px;
+        background: #fff;
+        border: 1px solid #edf0f5;
+        border-radius: 18px;
+        box-shadow: 0 5px 20px rgba(0,0,0,.05);
+        transition: all .3s ease;
+        overflow: hidden;
+    }
+
+        .admin-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0,0,0,.10);
+            border-color: #dce3f2;
+        }
+
+        .admin-card h5 {
+            color: #212529;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .admin-card p {
+            color: #6c757d;
+            font-size: 14px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+    .icon-container {
+        width: 58px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        font-size: 25px;
+    }
+
+    .card-arrow {
+        position: absolute;
+        right: 24px;
+        bottom: 16px;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: #f5f7fb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6c757d;
+        transition: .3s;
+    }
+
+    .admin-card:hover .card-arrow {
+        background: #1e3c72;
+        color: white;
+    }
+
+</style>

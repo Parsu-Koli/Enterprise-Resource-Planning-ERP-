@@ -1,0 +1,461 @@
+﻿@model ERP.Models.Applicant
+
+@{
+    ViewData["Title"] = "Apply for Job";
+}
+
+<div class="container-fluid py-4 py-md-5">
+
+    <!-- Page Header -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 col-lg-9">
+
+            <div class="d-flex align-items-center gap-3">
+                <div class="page-icon">
+                    <i class="bi bi-briefcase-fill"></i>
+                </div>
+
+                <div>
+                    <h2 class="fw-bold mb-1">Job Application</h2>
+                    <p class="text-muted mb-0">
+                        Complete the form below to submit your application.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Application Card -->
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-9 col-xl-8">
+
+            <div class="card application-card border-0 shadow-lg">
+
+                <!-- Card Header -->
+                <div class="card-header application-header text-white border-0">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="header-icon me-3">
+                            <i class="bi bi-person-vcard-fill"></i>
+                        </div>
+
+                        <div>
+                            <h4 class="mb-1 fw-bold">
+                                Application Details
+                            </h4>
+
+                            <small class="opacity-75">
+                                Please provide accurate information
+                            </small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Card Body -->
+                <div class="card-body p-4 p-md-5">
+
+                    <form asp-action="Apply"
+                          method="post"
+                          enctype="multipart/form-data">
+
+                        <!-- Hidden Job ID -->
+                        <input type="hidden" asp-for="JobId" />
+
+
+                        <!-- Qualification Section -->
+                        <div class="form-section mb-4">
+
+                            <div class="section-title mb-3">
+                                <i class="bi bi-mortarboard-fill"></i>
+                                <span>Education & Experience</span>
+                            </div>
+
+
+                            <!-- Qualification -->
+                            <div class="mb-4">
+
+                                <label asp-for="Qualification"
+                                       class="form-label fw-semibold">
+                                    Qualification
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-mortarboard"></i>
+                                    </span>
+
+                                    <input asp-for="Qualification"
+                                           class="form-control"
+                                           placeholder="e.g. B.E Computer Engineering, MBA, B.Sc..." />
+
+                                </div>
+
+                                <span asp-validation-for="Qualification"
+                                      class="text-danger small">
+                                </span>
+
+                                <div class="form-text">
+                                    Enter your highest or relevant qualification.
+                                </div>
+
+                            </div>
+
+
+                            <!-- Experience -->
+                            <div class="mb-2">
+
+                                <label asp-for="Experience"
+                                       class="form-label fw-semibold">
+                                    Professional Experience
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-briefcase"></i>
+                                    </span>
+
+                                    <input asp-for="Experience"
+                                           type="number"
+                                           min="0"
+                                           class="form-control"
+                                           placeholder="Enter experience in years" />
+
+                                    <span class="input-group-text">
+                                        Years
+                                    </span>
+
+                                </div>
+
+                                <span asp-validation-for="Experience"
+                                      class="text-danger small">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <hr class="my-4">
+
+
+                        <!-- Resume Section -->
+                        <div class="form-section mb-4">
+
+                            <div class="section-title mb-3">
+                                <i class="bi bi-file-earmark-person-fill"></i>
+                                <span>Resume / CV</span>
+                            </div>
+
+
+                            <div class="resume-upload">
+
+                                <div class="upload-icon">
+                                    <i class="bi bi-cloud-arrow-up-fill"></i>
+                                </div>
+
+                                <div class="upload-content">
+
+                                    <label asp-for="ResumeFile"
+                                           class="form-label fw-bold mb-1">
+                                        Upload your resume
+                                    </label>
+
+                                    <p class="text-muted small mb-3">
+                                        Upload your latest CV or resume.
+                                        Supported formats: PDF, DOC, DOCX.
+                                    </p>
+
+                                    <input asp-for="ResumeFile"
+                                           type="file"
+                                           class="form-control"
+                                           accept=".pdf,.doc,.docx" />
+
+                                    <span asp-validation-for="ResumeFile"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Important Information -->
+                        <div class="alert application-info border-0">
+
+                            <div class="d-flex">
+
+                                <i class="bi bi-info-circle-fill fs-5 me-3"></i>
+
+                                <div>
+                                    <strong>Application Information</strong>
+
+                                    <p class="mb-0 small mt-1">
+                                        Make sure all information is correct before
+                                        submitting your application. Your resume
+                                        will be reviewed by the HR department.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Buttons -->
+                        <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mt-4">
+
+                            <a asp-action="Jobs"
+                               class="btn btn-outline-secondary px-4 py-2">
+
+                                <i class="bi bi-arrow-left me-2"></i>
+                                Back to Jobs
+
+                            </a>
+
+
+                            <button type="submit"
+                                    class="btn btn-primary-custom px-4 py-2">
+
+                                <i class="bi bi-send-fill me-2"></i>
+                                Submit Application
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <!-- Footer -->
+                <div class="card-footer application-footer text-center border-0">
+
+                    <small class="text-muted">
+                        <i class="bi bi-shield-check me-1"></i>
+                        Your application information is handled securely.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<style>
+
+    /* ================================
+           PAGE
+           ================================ */
+
+    .page-icon {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+        font-size: 1.35rem;
+        box-shadow: 0 8px 20px rgba(30, 60, 114, 0.20);
+    }
+
+
+    /* ================================
+           APPLICATION CARD
+           ================================ */
+
+    .application-card {
+        border-radius: 18px;
+        overflow: hidden;
+    }
+
+
+    /* ================================
+           HEADER
+           ================================ */
+
+    .application-header {
+        background: linear-gradient( 135deg, #1e3c72, #2a5298 );
+        padding: 22px 28px;
+    }
+
+
+    .header-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,0.15);
+        border-radius: 12px;
+        font-size: 1.3rem;
+    }
+
+
+    /* ================================
+           SECTION TITLE
+           ================================ */
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #1e3c72;
+    }
+
+        .section-title i {
+            font-size: 1.15rem;
+        }
+
+
+    /* ================================
+           FORM
+           ================================ */
+
+    .form-label {
+        color: #344054;
+    }
+
+    .input-group-text {
+        background-color: #f5f7fb;
+        border-color: #dee2e6;
+        color: #2a5298;
+    }
+
+    .form-control,
+    .form-select {
+        border-color: #dee2e6;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #2a5298;
+            box-shadow: 0 0 0 0.2rem rgba(42, 82, 152, 0.12);
+        }
+
+
+    /* ================================
+           RESUME UPLOAD
+           ================================ */
+
+    .resume-upload {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 22px;
+        background: #f8faff;
+        border: 1px dashed #b8c7e6;
+        border-radius: 14px;
+    }
+
+    .upload-icon {
+        width: 55px;
+        height: 55px;
+        min-width: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #e8efff;
+        color: #2a5298;
+        font-size: 1.5rem;
+    }
+
+
+    /* ================================
+           INFORMATION BOX
+           ================================ */
+
+    .application-info {
+        background: #eef5ff;
+        color: #2a5298;
+        border-radius: 12px;
+        padding: 16px;
+    }
+
+
+    /* ================================
+           BUTTON
+           ================================ */
+
+    .btn-primary-custom {
+        color: white;
+        border: none;
+        background: linear-gradient( 90deg, #1e3c72, #2a5298 );
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+    }
+
+        .btn-primary-custom:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(30, 60, 114, 0.25);
+        }
+
+
+    /* ================================
+           FOOTER
+           ================================ */
+
+    .application-footer {
+        background: #f8f9fc;
+        padding: 15px;
+    }
+
+
+    /* ================================
+           MOBILE
+           ================================ */
+
+    @@media (max-width: 576px) {
+
+        .application-header {
+            padding: 18px;
+        }
+
+        .card-body {
+            padding: 22px !important;
+        }
+
+        .resume-upload {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .page-icon {
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+        }
+    }
+
+</style>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="auth-page">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100 py-5">
+
+            <div class="col-11 col-sm-9 col-md-7 col-lg-5">
+
+                <div class="access-card">
+
+                    <!-- Icon -->
+                    <div class="access-icon">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="text-center">
+
+                        <span class="error-code">
+                            ERROR 403
+                        </span>
+
+                        <h1 class="access-title">
+                            Access Denied
+                        </h1>
+
+                        <p class="access-description">
+                            You don't have permission to access this page.
+                            Please contact your administrator if you believe
+                            this is an error.
+                        </p>
+
+                        <!-- Buttons -->
+                        <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 mt-4">
+
+                            <a asp-controller="Home"
+                               asp-action="Index"
+                               class="btn btn-primary px-4 py-2">
+                                <i class="bi bi-house-door-fill me-2"></i>
+                                Go Home
+                            </a>
+
+                            <a asp-controller="Account"
+                               asp-action="Login"
+                               class="btn btn-outline-secondary px-4 py-2">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>
+                                Login
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+
+    .auth-page {
+        min-height: 100vh;
+        background: radial-gradient(circle at top left, rgba(99, 102, 241, .18), transparent 35%), radial-gradient(circle at bottom right, rgba(124, 58, 237, .18), transparent 35%), #f5f7fb;
+    }
+
+    .access-card {
+        background: rgba(255,255,255,.95);
+        border-radius: 24px;
+        padding: 45px 35px;
+        box-shadow: 0 20px 60px rgba(15,23,42,.12);
+        border: 1px solid rgba(255,255,255,.8);
+    }
+
+    .access-icon {
+        width: 90px;
+        height: 90px;
+        margin: 0 auto 25px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg,#fee2e2,#fecaca);
+        color: #dc2626;
+        font-size: 42px;
+    }
+
+    .error-code {
+        font-size: .8rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: #6366f1;
+    }
+
+    .access-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #172033;
+        margin-top: 8px;
+    }
+
+    .access-description {
+        color: #64748b;
+        line-height: 1.7;
+        margin-top: 12px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg,#4f46e5,#7c3aed);
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg,#4338ca,#6d28d9);
+        }
+
+</style>

@@ -1,0 +1,115 @@
+﻿@model ERP.Models.Employee
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <!-- Card Header -->
+                <div class="card-header bg-gradient text-white p-4 rounded-top-4" style="background: linear-gradient(90deg, #1e3c72, #2a5298);">
+                    <h4 class="mb-0">
+                        <i class="bi bi-person-badge me-2"></i> Employee Details
+                    </h4>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body p-5">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle border-0">
+                            <tbody>
+                                <tr class="border-bottom">
+                                    <td class="fw-semibold text-muted w-25">
+                                        <i class="bi bi-hash text-primary me-2"></i>Employee ID
+                                    </td>
+                                    <td class="fw-semibold">@Model.EmployeeId</td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-semibold text-muted">
+                                        <i class="bi bi-person text-primary me-2"></i>First Name
+                                    </td>
+                                    <td class="fw-semibold">@Model.FirstName</td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-semibold text-muted">
+                                        <i class="bi bi-person text-primary me-2"></i>Last Name
+                                    </td>
+                                    <td class="fw-semibold">@Model.LastName</td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-semibold text-muted">
+                                        <i class="bi bi-envelope text-primary me-2"></i>Email
+                                    </td>
+                                    <td><a href="mailto:@Model.Email" class="text-decoration-none">@Model.Email</a></td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-semibold text-muted">
+                                        <i class="bi bi-phone text-primary me-2"></i>Phone
+                                    </td>
+                                    <td>@Model.Phone</td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-semibold text-muted">
+                                        <i class="bi bi-venus-mars text-primary me-2"></i>Gender
+                                    </td>
+                                    <td>@Model.Gender</td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-semibold text-muted">
+                                        <i class="bi bi-calendar-event text-primary me-2"></i>Birth Date
+                                    </td>
+                                    <td>@Model.BirthDate.ToString("dd MMM yyyy")</td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-semibold text-muted">
+                                        <i class="bi bi-diagram-3-fill text-primary me-2"></i>Department
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info text-dark px-3 py-2">
+                                            @Model.Department?.DepartmentName
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-semibold text-muted">
+                                        <i class="bi bi-briefcase text-primary me-2"></i>Designation
+                                    </td>
+                                    <td>@Model.Designation</td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="fw-semibold text-muted">
+                                        <i class="bi bi-cash-stack text-primary me-2"></i>Salary
+                                    </td>
+                                    <td class="text-success fw-bold">₹ @Model.Salary.ToString("N2")</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-semibold text-muted">
+                                        <i class="bi bi-calendar-check text-primary me-2"></i>Date of Joining
+                                    </td>
+                                    <td>@Model.DateOfJoining.ToString("dd MMM yyyy")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Card Footer -->
+                <div class="card-footer bg-light p-4 border-top">
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="EditEmployee" asp-route-id="@Model.EmployeeId" class="btn btn-warning shadow-sm">
+                            <i class="bi bi-pencil-square me-1"></i> Edit
+                        </a>
+
+                        <a asp-action="Employees" class="btn btn-outline-secondary shadow-sm">
+                            <i class="bi bi-arrow-left me-1"></i> Back to Employees
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

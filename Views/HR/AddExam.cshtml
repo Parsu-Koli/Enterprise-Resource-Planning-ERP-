@@ -1,0 +1,111 @@
+﻿@model ERP.Models.Exam
+
+@{
+    ViewData["Title"] = "Add Exam Question";
+}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <!-- Header -->
+                <div class="card-header bg-primary text-white rounded-top-4">
+                    <h4 class="mb-0">
+                        <i class="bi bi-journal-plus me-2"></i>
+                        Add Exam Question
+                    </h4>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body p-4">
+
+                    <form asp-action="AddExam" method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" asp-for="JobId" />
+
+                        <!-- Question -->
+                        <div class="mb-4">
+                            <label asp-for="Question" class="form-label fw-bold">Question</label>
+                            <textarea asp-for="Question"
+                                      class="form-control shadow-sm"
+                                      rows="4"
+                                      placeholder="Enter the question here..."></textarea>
+                            <span asp-validation-for="Question" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Options -->
+                        <h6 class="fw-bold mb-3 text-secondary">
+                            <i class="bi bi-list-check me-1"></i> Answer Options
+                        </h6>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Option A</label>
+                                <input asp-for="OptionA"
+                                       class="form-control shadow-sm"
+                                       placeholder="Enter option A" />
+                                <span asp-validation-for="OptionA" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Option B</label>
+                                <input asp-for="OptionB"
+                                       class="form-control shadow-sm"
+                                       placeholder="Enter option B" />
+                                <span asp-validation-for="OptionB" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Option C</label>
+                                <input asp-for="OptionC"
+                                       class="form-control shadow-sm"
+                                       placeholder="Enter option C" />
+                                <span asp-validation-for="OptionC" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Option D</label>
+                                <input asp-for="OptionD"
+                                       class="form-control shadow-sm"
+                                       placeholder="Enter option D" />
+                                <span asp-validation-for="OptionD" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <!-- Correct Answer -->
+                        <div class="mb-4">
+                            <label asp-for="CorrectAnswer" class="form-label fw-bold">Correct Answer</label>
+                            <select asp-for="CorrectAnswer" class="form-select shadow-sm">
+                                <option value="">-- Select Correct Answer --</option>
+                                <option value="A">Option A</option>
+                                <option value="B">Option B</option>
+                                <option value="C">Option C</option>
+                                <option value="D">Option D</option>
+                            </select>
+                            <span asp-validation-for="CorrectAnswer" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="JobOpenings" class="btn btn-outline-secondary shadow-sm">
+                                <i class="bi bi-arrow-left me-1"></i> Back
+                            </a>
+                            <button type="submit" class="btn btn-success shadow-sm px-4">
+                                <i class="bi bi-check-circle me-1"></i> Save Question
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    await Html.RenderPartialAsync("_ValidationScriptsPartial")
+}

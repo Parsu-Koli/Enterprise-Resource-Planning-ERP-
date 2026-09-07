@@ -1,0 +1,375 @@
+﻿@model ERP.Models.Leave
+
+@{
+    ViewData["Title"] = "Apply Leave";
+}
+
+<div class="container-fluid py-4 py-md-5">
+
+    <!-- Page Header -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 col-lg-9">
+
+            <div class="d-flex align-items-center gap-3">
+
+                <div class="page-icon">
+                    <i class="bi bi-calendar-plus-fill"></i>
+                </div>
+
+                <div>
+                    <h2 class="fw-bold mb-1">Apply Leave</h2>
+                    <p class="text-muted mb-0">
+                        Submit a new leave request to your HR department.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Leave Form -->
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-lg-9 col-xl-8">
+
+            <div class="card leave-card border-0 shadow-lg">
+
+                <!-- Header -->
+                <div class="card-header leave-header text-white border-0">
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="header-icon me-3">
+                            <i class="bi bi-calendar-check-fill"></i>
+                        </div>
+
+                        <div>
+                            <h4 class="mb-1 fw-bold">
+                                Leave Request
+                            </h4>
+
+                            <small class="opacity-75">
+                                Provide the details of your leave
+                            </small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Body -->
+                <div class="card-body p-4 p-md-5">
+
+                    <form asp-action="ApplyLeave" method="post">
+
+                        <!-- Leave Information -->
+                        <div class="section-title mb-4">
+
+                            <i class="bi bi-info-circle-fill"></i>
+
+                            <span>Leave Information</span>
+
+                        </div>
+
+
+                        <!-- Leave Type -->
+                        <div class="mb-4">
+
+                            <label asp-for="LeaveType"
+                                   class="form-label fw-semibold">
+                                Leave Type
+                            </label>
+
+                            <div class="input-group input-group-lg">
+
+                                <span class="input-group-text">
+                                    <i class="bi bi-tags-fill"></i>
+                                </span>
+
+                                <input asp-for="LeaveType"
+                                       class="form-control"
+                                       placeholder="e.g. Casual Leave, Sick Leave, Earned Leave" />
+
+                            </div>
+
+                            <span asp-validation-for="LeaveType"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Dates -->
+                        <div class="row">
+
+                            <!-- From -->
+                            <div class="col-md-6 mb-4">
+
+                                <label asp-for="FromDate"
+                                       class="form-label fw-semibold">
+                                    From Date
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-calendar-event"></i>
+                                    </span>
+
+                                    <input asp-for="FromDate"
+                                           type="date"
+                                           class="form-control" />
+
+                                </div>
+
+                                <span asp-validation-for="FromDate"
+                                      class="text-danger small">
+                                </span>
+
+                            </div>
+
+
+                            <!-- To -->
+                            <div class="col-md-6 mb-4">
+
+                                <label asp-for="ToDate"
+                                       class="form-label fw-semibold">
+                                    To Date
+                                </label>
+
+                                <div class="input-group input-group-lg">
+
+                                    <span class="input-group-text">
+                                        <i class="bi bi-calendar-check"></i>
+                                    </span>
+
+                                    <input asp-for="ToDate"
+                                           type="date"
+                                           class="form-control" />
+
+                                </div>
+
+                                <span asp-validation-for="ToDate"
+                                      class="text-danger small">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Reason -->
+                        <div class="mb-4">
+
+                            <label asp-for="Reason"
+                                   class="form-label fw-semibold">
+                                Reason for Leave
+                            </label>
+
+                            <textarea asp-for="Reason"
+                                      class="form-control"
+                                      rows="5"
+                                      placeholder="Please explain the reason for your leave..."></textarea>
+
+                            <span asp-validation-for="Reason"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Information -->
+                        <div class="alert leave-info border-0">
+
+                            <div class="d-flex">
+
+                                <i class="bi bi-info-circle-fill fs-5 me-3"></i>
+
+                                <div>
+
+                                    <strong>Important</strong>
+
+                                    <p class="small mb-0 mt-1">
+                                        Please ensure that the selected dates and
+                                        reason are correct before submitting your
+                                        leave request.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Buttons -->
+                        <div class="d-flex flex-column flex-sm-row
+                                    justify-content-between gap-2 mt-4">
+
+                            <a asp-action="MyLeaves"
+                               class="btn btn-outline-secondary px-4 py-2">
+
+                                <i class="bi bi-arrow-left me-2"></i>
+                                Back to Leaves
+
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary-custom px-4 py-2">
+
+                                <i class="bi bi-send-fill me-2"></i>
+                                Submit Leave Request
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+                <!-- Footer -->
+                <div class="card-footer leave-footer text-center border-0">
+
+                    <small class="text-muted">
+                        <i class="bi bi-shield-check me-1"></i>
+                        Your leave request will be reviewed by HR.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .page-icon {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+        font-size: 1.3rem;
+        box-shadow: 0 8px 20px rgba(30,60,114,0.20);
+    }
+
+
+    .leave-card {
+        border-radius: 18px;
+        overflow: hidden;
+    }
+
+
+    .leave-header {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        padding: 22px 28px;
+    }
+
+
+    .header-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,0.15);
+        border-radius: 12px;
+        font-size: 1.3rem;
+    }
+
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #1e3c72;
+        font-weight: 700;
+        font-size: 1.05rem;
+    }
+
+
+    .input-group-text {
+        background: #f5f7fb;
+        border-color: #dee2e6;
+        color: #2a5298;
+    }
+
+
+    .form-control:focus {
+        border-color: #2a5298;
+        box-shadow: 0 0 0 0.2rem rgba(42,82,152,0.12);
+    }
+
+
+    .leave-info {
+        background: #eef5ff;
+        color: #2a5298;
+        border-radius: 12px;
+        padding: 16px;
+    }
+
+
+    .btn-primary-custom {
+        color: white;
+        border: none;
+        background: linear-gradient( 90deg, #1e3c72, #2a5298 );
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+    }
+
+
+        .btn-primary-custom:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(30,60,114,0.25);
+        }
+
+
+    .leave-footer {
+        background: #f8f9fc;
+        padding: 15px;
+    }
+
+
+    @@media (max-width:576px) {
+
+        .page-icon {
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+        }
+
+        .leave-header {
+            padding: 18px;
+        }
+
+        .card-body {
+            padding: 22px !important;
+        }
+    }
+
+</style>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

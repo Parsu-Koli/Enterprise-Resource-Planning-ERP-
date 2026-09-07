@@ -1,0 +1,128 @@
+﻿@model ERP.Models.HRModel
+
+@{
+    ViewData["Title"] = "Update HR";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <!-- Header -->
+                <div class="card-header bg-warning text-dark rounded-top-4 py-3">
+                    <h4 class="mb-0">
+                        <i class="bi bi-pencil-square me-2"></i>
+                        Update HR Profile
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <form asp-action="UpdateHr" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <!-- Hidden ID -->
+                        <input type="hidden" asp-for="Id" />
+
+                        <!-- Personal Details -->
+                        <div class="mb-4">
+                            <h5 class="text-muted mb-3">
+                                <i class="bi bi-person-fill me-2"></i>
+                                Personal Details
+                            </h5>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">First Name</label>
+                                    <input asp-for="FirstName"
+                                           class="form-control form-control-lg" />
+                                    <span asp-validation-for="FirstName"
+                                          class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Last Name</label>
+                                    <input asp-for="LastName"
+                                           class="form-control form-control-lg" />
+                                    <span asp-validation-for="LastName"
+                                          class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <!-- Account Details -->
+                        <div class="mb-4">
+                            <h5 class="text-muted mb-3">
+                                <i class="bi bi-envelope-fill me-2"></i>
+                                Account Details
+                            </h5>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Email</label>
+                                <input asp-for="User.Email"
+                                       class="form-control form-control-lg" />
+                                <span asp-validation-for="User.Email"
+                                      class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <!-- Professional Details -->
+                        <div class="mb-4">
+                            <h5 class="text-muted mb-3">
+                                <i class="bi bi-briefcase-fill me-2"></i>
+                                Professional Details
+                            </h5>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Qualification</label>
+                                <input asp-for="Qualification"
+                                       class="form-control form-control-lg" />
+                                <span asp-validation-for="Qualification"
+                                      class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Experience (Years)</label>
+                                <input asp-for="Experience"
+                                       type="number"
+                                       class="form-control form-control-lg" />
+                                <span asp-validation-for="Experience"
+                                      class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-end">
+                            <a asp-action="HRList"
+                               class="btn btn-outline-secondary me-2 px-4">
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Back
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-success px-4">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Update HR
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

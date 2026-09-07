@@ -1,0 +1,194 @@
+﻿@model IEnumerable<ERP.Models.Leave>
+
+@{
+    ViewData["Title"] = "Leave Requests";
+}
+
+<div class="container-fluid py-4 px-3 px-lg-4">
+
+    <div class="mb-4">
+
+        <span class="text-primary small fw-semibold text-uppercase">
+            Attendance
+        </span>
+
+        <h2 class="fw-bold mb-1">
+            <i class="bi bi-calendar-check-fill text-primary me-2"></i>
+            Leave Requests
+        </h2>
+
+        <p class="text-muted mb-0">
+            Review and manage employee leave applications.
+        </p>
+
+    </div>
+
+
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th class="px-4">Employee</th>
+                            <th>Leave Type</th>
+                            <th>Duration</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                            <th class="text-center">Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model.Any())
+                        {
+                            foreach (var leave in Model)
+                            {
+                                <tr>
+
+                                    <td class="px-4">
+
+                                        <span class="fw-semibold">
+                                            Employee #@leave.EmployeeId
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                                            @leave.LeaveType
+                                        </span>
+                                    </td>
+
+                                    <td>
+
+                                        <div class="small">
+
+                                            <div>
+                                                <i class="bi bi-calendar-event me-1"></i>
+                                                @leave.FromDate.ToString("dd MMM yyyy")
+                                            </div>
+
+                                            <div class="text-muted">
+                                                to @leave.ToDate.ToString("dd MMM yyyy")
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        <span class="text-muted">
+                                            @leave.Reason
+                                        </span>
+                                    </td>
+
+                                    <td>
+
+                                        @if (leave.Status == "Approved")
+                                        {
+                                            <span class="badge bg-success-subtle text-success px-3 py-2">
+                                                <i class="bi bi-check-circle me-1"></i>
+                                                Approved
+                                            </span>
+                                        }
+                                        else if (leave.Status == "Rejected")
+                                        {
+                                            <span class="badge bg-danger-subtle text-danger px-3 py-2">
+                                                <i class="bi bi-x-circle me-1"></i>
+                                                Rejected
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning-subtle text-warning-emphasis px-3 py-2">
+                                                <i class="bi bi-hourglass-split me-1"></i>
+                                                Pending
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        @if (leave.Status == "Pending")
+                                        {
+                                            <div class="d-flex justify-content-center gap-2">
+
+                                                <a asp-action="UpdateLeave"
+                                                   asp-route-id="@leave.LeaveId"
+                                                   asp-route-status="Approved"
+                                                   class="btn btn-sm btn-success"
+                                                   title="Approve">
+
+                                                    <i class="bi bi-check-lg"></i>
+
+                                                </a>
+
+                                                <a asp-action="UpdateLeave"
+                                                   asp-route-id="@leave.LeaveId"
+                                                   asp-route-status="Rejected"
+                                                   class="btn btn-sm btn-danger"
+                                                   title="Reject">
+
+                                                    <i class="bi bi-x-lg"></i>
+
+                                                </a>
+
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted small">
+                                                No action
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+
+                                <td colspan="6">
+
+                                    <div class="empty-state">
+
+                                        <i class="bi bi-calendar-x"></i>
+
+                                        <h5>No Leave Requests</h5>
+
+                                        <p class="text-muted">
+                                            There are currently no leave applications.
+                                        </p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

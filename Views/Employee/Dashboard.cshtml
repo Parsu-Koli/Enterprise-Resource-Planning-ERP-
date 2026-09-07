@@ -1,0 +1,318 @@
+﻿@{
+    ViewData["Title"] = "Employee Dashboard";
+}
+
+<div class="container-fluid py-4 py-md-5">
+
+    <!-- Header -->
+    <div class="dashboard-header mb-5">
+
+        <div>
+
+            <div class="d-flex align-items-center gap-3">
+
+                <div class="page-icon">
+                    <i class="bi bi-person-badge-fill"></i>
+                </div>
+
+                <div>
+
+                    <h2 class="fw-bold mb-1">
+                        Employee Dashboard
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Manage your profile, leaves and salary information.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Dashboard Cards -->
+    <div class="row g-4">
+
+        <!-- Profile -->
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <a asp-action="Profile"
+               class="text-decoration-none">
+
+                <div class="employee-card h-100">
+
+                    <div class="card-icon profile-icon">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+
+                    <h5 class="fw-bold mt-4">
+                        My Profile
+                    </h5>
+
+                    <p class="text-muted small mb-4">
+                        View your personal and professional information.
+                    </p>
+
+                    <div class="card-link">
+                        View Profile
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- Leaves -->
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <a asp-action="MyLeaves"
+               class="text-decoration-none">
+
+                <div class="employee-card h-100">
+
+                    <div class="card-icon leave-icon">
+                        <i class="bi bi-calendar-check-fill"></i>
+                    </div>
+
+                    <h5 class="fw-bold mt-4">
+                        My Leaves
+                    </h5>
+
+                    <p class="text-muted small mb-4">
+                        View your leave requests and their status.
+                    </p>
+
+                    <div class="card-link">
+                        View Leaves
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- Apply Leave -->
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <a asp-action="ApplyLeave"
+               class="text-decoration-none">
+
+                <div class="employee-card h-100">
+
+                    <div class="card-icon apply-icon">
+                        <i class="bi bi-calendar-plus-fill"></i>
+                    </div>
+
+                    <h5 class="fw-bold mt-4">
+                        Apply Leave
+                    </h5>
+
+                    <p class="text-muted small mb-4">
+                        Submit a new leave request to HR.
+                    </p>
+
+                    <div class="card-link">
+                        Apply Now
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- Salary -->
+        <div class="col-12 col-sm-6 col-xl-3">
+
+            <a asp-action="MySalary"
+               class="text-decoration-none">
+
+                <div class="employee-card h-100">
+
+                    <div class="card-icon salary-icon">
+                        <i class="bi bi-wallet2"></i>
+                    </div>
+
+                    <h5 class="fw-bold mt-4">
+                        My Salary
+                    </h5>
+
+                    <p class="text-muted small mb-4">
+                        View payroll and salary information.
+                    </p>
+
+                    <div class="card-link">
+                        View Salary
+                        <i class="bi bi-arrow-right"></i>
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Quick Information -->
+    <div class="row mt-5">
+
+        <div class="col-12">
+
+            <div class="info-banner">
+
+                <div class="info-banner-icon">
+                    <i class="bi bi-info-circle-fill"></i>
+                </div>
+
+                <div>
+
+                    <h6 class="fw-bold mb-1">
+                        Employee Self Service
+                    </h6>
+
+                    <p class="text-muted small mb-0">
+                        Use the dashboard to manage your profile,
+                        submit leave requests and review your payroll
+                        information.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .page-icon {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        background: linear-gradient(135deg,#1e3c72,#2a5298);
+        color: white;
+        font-size: 1.3rem;
+        box-shadow: 0 8px 20px rgba(30,60,114,.20);
+    }
+
+
+    .employee-card {
+        background: white;
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 5px 20px rgba(0,0,0,.06);
+        transition: all .3s ease;
+        border: 1px solid #edf0f5;
+    }
+
+
+        .employee-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 35px rgba(30,60,114,.12);
+        }
+
+
+    .card-icon {
+        width: 58px;
+        height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        font-size: 1.5rem;
+    }
+
+
+    .profile-icon {
+        background: #e8efff;
+        color: #2a5298;
+    }
+
+
+    .leave-icon {
+        background: #e8f8ef;
+        color: #198754;
+    }
+
+
+    .apply-icon {
+        background: #fff4db;
+        color: #d99b00;
+    }
+
+
+    .salary-icon {
+        background: #ffe9ed;
+        color: #dc3545;
+    }
+
+
+    .card-link {
+        color: #2a5298;
+        font-size: .9rem;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+    .info-banner {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: #eef5ff;
+        border-radius: 14px;
+        padding: 20px;
+    }
+
+
+    .info-banner-icon {
+        width: 45px;
+        height: 45px;
+        min-width: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: white;
+        color: #2a5298;
+    }
+
+
+    @@media(max-width:576px) {
+
+        .page-icon {
+            width: 45px;
+            height: 45px;
+            min-width: 45px;
+        }
+
+        .employee-card {
+            padding: 22px;
+        }
+    }
+
+</style>

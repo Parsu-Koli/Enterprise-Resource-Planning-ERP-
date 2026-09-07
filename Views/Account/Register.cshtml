@@ -1,0 +1,564 @@
+﻿@model ERP.Models.User
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="auth-page">
+
+    <div class="container-fluid">
+
+        <div class="row min-vh-100">
+
+            <!-- LEFT BRANDING -->
+            <div class="col-lg-5 d-none d-lg-flex register-brand">
+
+                <div class="register-brand-content">
+
+                    <div class="brand-logo">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </div>
+
+                    <h1>
+                        Join ERP System
+                    </h1>
+
+                    <p>
+                        Create your account and get access to
+                        a powerful enterprise management platform.
+                    </p>
+
+                    <div class="register-features">
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Secure Account
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Role Based Access
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Employee Management
+                        </div>
+
+                        <div>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Payroll & Leave Management
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- REGISTER -->
+            <div class="col-lg-7 d-flex align-items-center justify-content-center">
+
+                <div class="register-wrapper">
+
+                    <!-- Mobile Header -->
+                    <div class="mobile-brand d-lg-none text-center mb-4">
+
+                        <div class="mobile-logo">
+                            <i class="bi bi-building"></i>
+                        </div>
+
+                        <h4 class="mt-3 fw-bold">
+                            ERP Management System
+                        </h4>
+
+                    </div>
+
+
+                    <div class="register-card">
+
+                        <!-- HEADER -->
+
+                        <div class="text-center mb-4">
+
+                            <div class="register-icon">
+                                <i class="bi bi-person-plus-fill"></i>
+                            </div>
+
+                            <h2 class="register-title">
+                                Create Account
+                            </h2>
+
+                            <p class="register-subtitle">
+                                Register a new ERP user account
+                            </p>
+
+                        </div>
+
+
+                        <!-- FORM -->
+
+                        <form asp-action="Register" method="post">
+
+                            <div asp-validation-summary="All"
+                                 class="alert alert-danger"
+                                 role="alert">
+
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                            </div>
+
+
+                            <div class="row">
+
+
+                                <!-- USERNAME -->
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label asp-for="UserName">
+                                        Username
+                                    </label>
+
+                                    <div class="input-wrapper">
+
+                                        <i class="bi bi-person"></i>
+
+                                        <input asp-for="UserName"
+                                               class="form-control"
+                                               placeholder="Username" />
+
+                                    </div>
+
+                                    <span asp-validation-for="UserName"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- EMAIL -->
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label asp-for="Email">
+                                        Email Address
+                                    </label>
+
+                                    <div class="input-wrapper">
+
+                                        <i class="bi bi-envelope"></i>
+
+                                        <input asp-for="Email"
+                                               type="email"
+                                               class="form-control"
+                                               placeholder="Email address" />
+
+                                    </div>
+
+                                    <span asp-validation-for="Email"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- ROLE -->
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label asp-for="Role">
+                                        User Role
+                                    </label>
+
+                                    <div class="input-wrapper">
+
+                                        <i class="bi bi-shield-check"></i>
+
+                                        <select asp-for="Role"
+                                                class="form-select">
+
+                                            <option value="">
+                                                Select Role
+                                            </option>
+
+                                            @* <option value="Employee">
+                                                Employee
+                                            </option>
+
+                                            <option value="HR">
+                                                HR
+                                            </option>
+
+                                            <option value="Admin">
+                                                Admin
+                                            </option> *@
+
+                                            <option value="Applicant">
+                                                Applicant
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <span asp-validation-for="Role"
+                                          class="text-danger small">
+                                    </span>
+
+                                </div>
+
+
+                                <!-- PASSWORD -->
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label asp-for="PasswordHash">
+                                        Password
+                                    </label>
+
+                                    <div class="input-wrapper">
+
+                                        <i class="bi bi-lock"></i>
+
+                                        <input asp-for="PasswordHash"
+                                               type="password"
+                                               id="registerPassword"
+                                               class="form-control"
+                                               placeholder="Create password" />
+
+                                        <button type="button"
+                                                class="password-toggle"
+                                                onclick="toggleRegisterPassword()">
+
+                                            <i class="bi bi-eye"
+                                               id="registerPasswordIcon">
+                                            </i>
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BUTTON -->
+
+                            <button type="submit"
+                                    class="btn register-btn w-100 mt-3">
+
+                                <i class="bi bi-person-check-fill me-2"></i>
+
+                                Create Account
+
+                            </button>
+
+
+                        </form>
+
+
+                        <!-- LOGIN -->
+
+                        <div class="login-section">
+
+                            <span>
+                                Already have an account?
+                            </span>
+
+                            <a asp-action="Login">
+                                Sign In
+                            </a>
+
+                        </div>
+
+
+                        <!-- SECURITY -->
+
+                        <div class="security-note">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            <span>
+                                Your account information is securely protected.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .auth-page {
+        min-height: 100vh;
+        background: #f5f7fb;
+    }
+
+    /* BRAND */
+
+    .register-brand {
+        background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.12), transparent 30%), radial-gradient(circle at 80% 80%, rgba(255,255,255,.08), transparent 30%), linear-gradient(135deg,#172554,#312e81,#4c1d95);
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .register-brand-content {
+        max-width: 500px;
+        margin: auto;
+        padding: 50px;
+    }
+
+    .brand-logo {
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 18px;
+        background: rgba(255,255,255,.12);
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+
+    .register-brand-content h1 {
+        font-size: 2.8rem;
+        font-weight: 750;
+    }
+
+    .register-brand-content p {
+        color: rgba(255,255,255,.75);
+        line-height: 1.8;
+        margin-top: 20px;
+    }
+
+    .register-features {
+        margin-top: 30px;
+    }
+
+        .register-features div {
+            margin: 15px 0;
+        }
+
+        .register-features i {
+            color: #a5b4fc;
+            margin-right: 10px;
+        }
+
+    /* CARD */
+
+    .register-wrapper {
+        width: 100%;
+        max-width: 700px;
+        padding: 30px;
+    }
+
+    .register-card {
+        background: white;
+        border-radius: 24px;
+        padding: 42px;
+        box-shadow: 0 20px 60px rgba(15,23,42,.10);
+        border: 1px solid #eef0f5;
+    }
+
+    .register-icon,
+    .mobile-logo {
+        width: 68px;
+        height: 68px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 18px;
+        background: linear-gradient(135deg,#eef2ff,#ede9fe);
+        color: #4f46e5;
+        font-size: 30px;
+    }
+
+    .register-title {
+        margin-top: 20px;
+        font-weight: 750;
+        color: #172033;
+    }
+
+    .register-subtitle {
+        color: #64748b;
+    }
+
+    /* FORM */
+
+    .register-card label {
+        display: block;
+        font-weight: 600;
+        font-size: .9rem;
+        color: #334155;
+        margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+        .input-wrapper > i {
+            position: absolute;
+            left: 15px;
+            color: #64748b;
+            z-index: 2;
+        }
+
+        .input-wrapper .form-control,
+        .input-wrapper .form-select {
+            height: 50px;
+            border-radius: 12px;
+            border: 1px solid #dbe1ea;
+            padding-left: 45px;
+            padding-right: 40px;
+        }
+
+            .input-wrapper .form-control:focus,
+            .input-wrapper .form-select:focus {
+                border-color: #6366f1;
+                box-shadow: 0 0 0 4px rgba(99,102,241,.1);
+            }
+
+    /* BUTTON */
+
+    .register-btn {
+        height: 52px;
+        border-radius: 12px;
+        border: none;
+        color: white;
+        font-weight: 600;
+        background: linear-gradient(135deg,#4f46e5,#7c3aed);
+        box-shadow: 0 8px 20px rgba(79,70,229,.25);
+        transition: .25s;
+    }
+
+        .register-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    /* PASSWORD */
+
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        border: none;
+        background: transparent;
+        color: #64748b;
+        cursor: pointer;
+    }
+
+    /* LOGIN */
+
+    .login-section {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 22px;
+        border-top: 1px solid #eef0f5;
+        color: #64748b;
+        font-size: .9rem;
+    }
+
+        .login-section a {
+            color: #4f46e5;
+            font-weight: 600;
+            margin-left: 5px;
+            text-decoration: none;
+        }
+
+    .security-note {
+        margin-top: 20px;
+        padding: 12px;
+        border-radius: 10px;
+        background: #f8fafc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: #64748b;
+        font-size: .78rem;
+    }
+
+        .security-note i {
+            color: #10b981;
+        }
+
+    .validation-summary-valid {
+        display: none;
+    }
+
+    @@media (max-width: 576px) {
+
+        .register-wrapper {
+            padding: 18px;
+        }
+
+        .register-card {
+            padding: 28px 22px;
+            border-radius: 20px;
+        }
+
+        .register-title {
+            font-size: 1.65rem;
+        }
+    }
+
+</style>
+
+
+<script>
+
+    function toggleRegisterPassword() {
+
+        const password =
+            document.getElementById("registerPassword");
+
+        const icon =
+            document.getElementById("registerPasswordIcon");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            icon.classList.remove("bi-eye");
+
+            icon.classList.add("bi-eye-slash");
+
+        }
+        else {
+
+            password.type = "password";
+
+            icon.classList.remove("bi-eye-slash");
+
+            icon.classList.add("bi-eye");
+
+        }
+
+    }
+
+</script>
+
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

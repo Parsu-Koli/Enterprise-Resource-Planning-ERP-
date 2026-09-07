@@ -1,0 +1,81 @@
+﻿@model ERP.Models.JobOpening
+
+@{
+    ViewData["Title"] = "Create Job Opening";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <!-- Header -->
+                <div class="card-header bg-primary text-white rounded-top-4">
+                    <h4 class="mb-0">
+                        <i class="bi bi-briefcase-fill me-2"></i>
+                        Create Job Opening
+                    </h4>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body p-4">
+
+                    <form asp-action="CreateJob" method="post">
+
+                        <!-- Job Title -->
+                        <div class="mb-3">
+                            <label asp-for="JobTitle" class="form-label fw-semibold">Job Title</label>
+                            <input asp-for="JobTitle" class="form-control shadow-sm" placeholder="Enter job title..." />
+                            <span asp-validation-for="JobTitle" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Department -->
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Department</label>
+                            <select asp-for="DepartmentId" class="form-select shadow-sm">
+                                <option value="">-- Select Department --</option>
+                                @foreach (var d in ViewBag.Departments)
+                                {
+                                    <option value="@d.DepartmentId">@d.DepartmentName</option>
+                                }
+                            </select>
+                            <span asp-validation-for="DepartmentId" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Experience Required -->
+                        <div class="mb-3">
+                            <label asp-for="ExperienceRequired" class="form-label fw-semibold">Experience Required (Years)</label>
+                            <input asp-for="ExperienceRequired" type="number" class="form-control shadow-sm" placeholder="Enter experience in years..." />
+                            <span asp-validation-for="ExperienceRequired" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label fw-semibold">Job Description</label>
+                            <textarea asp-for="Description" class="form-control shadow-sm" rows="4" placeholder="Enter job description..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-end gap-2">
+                            <a asp-action="JobOpenings" class="btn btn-outline-secondary shadow-sm">
+                                <i class="bi bi-arrow-left me-1"></i> Back
+                            </a>
+                            <button type="submit" class="btn btn-success shadow-sm">
+                                <i class="bi bi-check-circle me-1"></i> Save Job
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    await Html.RenderPartialAsync("_ValidationScriptsPartial")
+}

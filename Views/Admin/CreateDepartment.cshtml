@@ -1,0 +1,211 @@
+﻿@model ERP.Models.Department
+
+@{
+    ViewData["Title"] = "Create Department";
+}
+
+<div class="container-fluid py-4 py-lg-5">
+
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="page-icon">
+                    <i class="bi bi-diagram-3-fill"></i>
+                </div>
+
+                <div>
+                    <h2 class="fw-bold mb-0">Create Department</h2>
+                    <p class="text-muted mb-0">
+                        Add a new department to your organization
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-lg-8 col-xl-7">
+
+            <div class="card border-0 shadow-sm modern-card">
+
+                <!-- Card Header -->
+                <div class="card-header bg-white border-0 p-4">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <div class="section-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
+
+                        <div>
+                            <h5 class="fw-bold mb-1">
+                                Department Information
+                            </h5>
+
+                            <small class="text-muted">
+                                Enter the department details below
+                            </small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card-body p-4 p-md-5">
+
+                    <form asp-action="CreateDepartment" method="post">
+
+                        <!-- Department Name -->
+                        <div class="mb-4">
+
+                            <label asp-for="DepartmentName"
+                                   class="form-label fw-semibold">
+                                Department Name
+                            </label>
+
+                            <div class="input-group input-group-lg">
+
+                                <span class="input-group-text">
+                                    <i class="bi bi-diagram-3"></i>
+                                </span>
+
+                                <input asp-for="DepartmentName"
+                                       class="form-control"
+                                       placeholder="Enter department name" />
+
+                            </div>
+
+                            <span asp-validation-for="DepartmentName"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Description -->
+                        <div class="mb-4">
+
+                            <label asp-for="Description"
+                                   class="form-label fw-semibold">
+                                Description
+                            </label>
+
+                            <div class="input-group">
+
+                                <span class="input-group-text align-items-start pt-3">
+                                    <i class="bi bi-card-text"></i>
+                                </span>
+
+                                <textarea asp-for="Description"
+                                          class="form-control"
+                                          rows="5"
+                                          placeholder="Describe the purpose and responsibilities of this department"></textarea>
+
+                            </div>
+
+                            <span asp-validation-for="Description"
+                                  class="text-danger small">
+                            </span>
+
+                        </div>
+
+
+                        <!-- Buttons -->
+                        <div class="d-flex flex-column flex-sm-row justify-content-end gap-2 pt-3 border-top">
+
+                            <a asp-action="Departments"
+                               class="btn btn-light border px-4">
+
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Cancel
+
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary px-4">
+
+                                <i class="bi bi-check-circle me-1"></i>
+                                Create Department
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .page-header {
+        max-width: 1100px;
+        margin: auto;
+    }
+
+    .page-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: #e8efff;
+        color: #3157c8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    .modern-card {
+        border-radius: 18px;
+        overflow: hidden;
+    }
+
+    .section-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: #f0f4ff;
+        color: #3157c8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+    }
+
+    .form-control,
+    .form-select,
+    .input-group-text {
+        border-color: #e1e5eb;
+    }
+
+    .input-group-text {
+        background: #f8f9fb;
+        color: #64748b;
+        min-width: 48px;
+        justify-content: center;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #6685e8;
+        box-shadow: 0 0 0 .2rem rgba(49, 87, 200, .10);
+    }
+
+    .btn {
+        border-radius: 9px;
+        font-weight: 600;
+    }
+
+</style>
