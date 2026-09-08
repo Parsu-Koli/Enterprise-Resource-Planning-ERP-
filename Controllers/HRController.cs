@@ -11,38 +11,64 @@ namespace ERP.Controllers
     [Authorize(Roles = "HR")]
     public class HRController(ERPDbContext context) : Controller
     {
+        // =========================================================
+        // DASHBOARD
+        // =========================================================
+
+        #region Dashboard
+
         public IActionResult Dashboard()
         {
             return View();
         }
 
+        #endregion
+
+
+        // =========================================================
+        // JOB MANAGEMENT
+        // =========================================================
+
+        #region Job Management
+
+        // GET: /HR/JobOpenings
         [AllowAnonymous]
         public IActionResult JobOpenings()
         {
             return View(context.JobOpenings.ToList());
         }
 
+
+        // GET: /HR/CreateJob
         public IActionResult CreateJob()
         {
             ViewBag.Departments = context.Departments.ToList();
+
             return View();
         }
 
+
+        // POST: /HR/CreateJob
         [HttpPost]
         public IActionResult CreateJob(JobOpening job)
         {
             job.PostedDate = DateTime.Now;
             job.IsActive = true;
+
             context.JobOpenings.Add(job);
             context.SaveChanges();
+
             return RedirectToAction(nameof(JobOpenings));
         }
 
+
+        // POST: /HR/DeleteJobVacancy
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteJobVacancy(int jobid)
         {
             var job = context.JobOpenings.Find(jobid);
+
             if (job == null)
                 return NotFound();
 
@@ -52,62 +78,121 @@ namespace ERP.Controllers
             return RedirectToAction(nameof(JobOpenings));
         }
 
+        #endregion
 
 
+        // =========================================================
+        // APPLICANT MANAGEMENT
+        // =========================================================
+
+        #region Applicant Management
+
+        // GET: /HR/Applicants
         public IActionResult Applicants()
         {
-            var data = context.Applicants
+            var applicants = context.Applicants
                 .Include(a => a.User)
                 .Include(a => a.JobOpening)
                 .ToList();
 
-            return View(data);
+            return View(applicants);
         }
 
+
+        // GET: /HR/SendExam
+        public IActionResult SendExam(int applicantId)
+        {
+            var applicant = context.Applicants
+                .Include(a => a.User)
+                .Include(a => a.JobOpening)
+                .FirstOrDefault(a => a.ApplicantId == applicantId);
+
+            if (applicant == null || applicant.User?.Email == null)
+                return NotFound();
+
+            // Generate exam URL
+            var examLink = Url.Action(
+                "TakeExam",
+                "Exam",
+                new { applicantId },
+                Request.Scheme
+            );
+
+            // Create mail record
+            var mail = new Mail
+            {
+                SenderId = int.Parse(User.FindFirst("UserId")!.Value),
+                ReceiverId = applicant.UserId,
+                Subject = "Online Exam Invitation",
+                Body = $"Please attend your exam using the link below:\n{examLink}",
+                SentDate = DateTime.Now
+            };
+
+            // Send actual email
+            SendRealEmail(
+                applicant.User.Email,
+                mail.Subject,
+                mail.Body
+            );
+
+            // Save email record in database
+            context.Mails.Add(mail);
+            context.SaveChanges();
+
+            return RedirectToAction(nameof(Applicants));
+        }
+
+        #endregion
+
+
+        // =========================================================
+        // EXAM MANAGEMENT
+        // =========================================================
+
+        #region Exam Management
+
+        // GET: /HR/AddExam
         public IActionResult AddExam(int jobId)
         {
-            return View(new Exam { JobId = jobId });
+            return View(new Exam
+            {
+                JobId = jobId
+            });
         }
 
+
+        // POST: /HR/AddExam
         [HttpPost]
         public IActionResult AddExam(Exam exam)
         {
             context.Exams.Add(exam);
             context.SaveChanges();
+
             return RedirectToAction(nameof(JobOpenings));
         }
 
-        public IActionResult Payrolls()
+        #endregion
+
+
+        // =========================================================
+        // EMPLOYEE MANAGEMENT
+        // =========================================================
+
+        #region Employee Management
+
+        // GET: /HR/Employees
+        public IActionResult Employees()
         {
-            return View(context.PayRolls
-                .Include(e => e.Employee)
-                .ToList());
+            var employees = context.Employees
+                .Include(e => e.User)
+                .Include(e => e.Department)
+                .ToList();
+
+            return View(employees);
         }
 
-        public IActionResult GeneratePayroll(int employeeId)
-        {
-            var emp = context.Employees.Find(employeeId);
 
-            if (emp == null)
-                return NotFound();
-
-            var payroll = new PayRoll
-            {
-                EmployeeId = emp.EmployeeId,
-                BasicSalary = emp.Salary,
-                Allowances = 2000,
-                Deductions = 500,
-                NetSalary = emp.Salary + 2000 - 500,
-                GeneratedDate = DateTime.Now
-            };
-
-            context.PayRolls.Add(payroll);
-            context.SaveChanges();
-
-            return RedirectToAction(nameof(Payrolls));
-        }
-
-        [HttpGet]
+        // GET: /HR/CreateEmployee
         public IActionResult CreateEmployee(int applicantId)
         {
             var applicant = context.Applicants
@@ -130,8 +215,11 @@ namespace ERP.Controllers
         }
 
 
+        // POST: /HR/CreateEmployee
         [HttpPost]
-        public IActionResult CreateEmployee(Employee employee, int applicantId)
+        public IActionResult CreateEmployee(
+            Employee employee,
+            int applicantId)
         {
             var applicant = context.Applicants
                 .Include(a => a.User)
@@ -140,151 +228,220 @@ namespace ERP.Controllers
             if (applicant == null || applicant.User == null)
                 return NotFound("User not found for applicant");
 
+
+            // -----------------------------------------------------
             // Prevent duplicate employee
+            // -----------------------------------------------------
+
             var existingEmployee = context.Employees
-                .FirstOrDefault(e => e.UserId == applicant.User.UserId);
+                .FirstOrDefault(e =>
+                    e.UserId == applicant.User.UserId);
 
             if (existingEmployee != null)
-                return BadRequest("This applicant is already an employee.");
+                return BadRequest(
+                    "This applicant is already an employee."
+                );
+
+
+            // -----------------------------------------------------
+            // Assign User information
+            // -----------------------------------------------------
 
             employee.UserId = applicant.User.UserId;
             employee.Email = applicant.User.Email;
 
+
+            // -----------------------------------------------------
+            // Update applicant status
+            // -----------------------------------------------------
+
             applicant.Status = "Selected";
+
+
+            // -----------------------------------------------------
+            // Change user role
+            // -----------------------------------------------------
+
             applicant.User.Role = "Employee";
 
-            context.Employees.Add(employee);
 
+            // -----------------------------------------------------
+            // Save employee
+            // -----------------------------------------------------
+
+            context.Employees.Add(employee);
             context.SaveChanges();
 
             return RedirectToAction(nameof(Applicants));
         }
 
 
+        // GET: /HR/ViewEmployee
         public IActionResult ViewEmployee(int id)
         {
-            var emp = context.Employees
+            var employee = context.Employees
                 .Include(e => e.Department)
                 .Include(e => e.User)
                 .FirstOrDefault(e => e.UserId == id);
 
-            if (emp == null)
+            if (employee == null)
                 return NotFound("Employee not found.");
 
-            return View(emp);
+            return View(employee);
         }
 
-        [HttpGet]
-        public IActionResult EditEmployee(int id) // id = UserId
-        {
-            var emp = context.Employees
-                .Include(e => e.User)
-                .FirstOrDefault(e => e.UserId == id); // ✅ FIX
 
-            if (emp == null)
+        // GET: /HR/EditEmployee
+        public IActionResult EditEmployee(int id)
+        {
+            var employee = context.Employees
+                .Include(e => e.User)
+                .FirstOrDefault(e => e.UserId == id);
+
+            if (employee == null)
                 return NotFound();
 
-            ViewBag.Departments = context.Departments.ToList();
-            return View(emp);
+            ViewBag.Departments =
+                context.Departments.ToList();
+
+            return View(employee);
         }
 
 
+        // POST: /HR/EditEmployee
         [HttpPost]
         public IActionResult EditEmployee(Employee employee)
         {
-            var existing = context.Employees
+            var existingEmployee = context.Employees
                 .Include(e => e.User)
-                .FirstOrDefault(e => e.EmployeeId == employee.EmployeeId);
+                .FirstOrDefault(e =>
+                    e.EmployeeId == employee.EmployeeId);
 
-            if (existing == null)
+            if (existingEmployee == null)
                 return NotFound();
 
-            existing.FirstName = employee.FirstName;
-            existing.LastName = employee.LastName;
-            existing.DepartmentId = employee.DepartmentId;
-            existing.Designation = employee.Designation;
-            existing.Email = employee.Email;
-            existing.Phone = employee.Phone;
-            existing.Salary = employee.Salary;
-            existing.Gender = employee.Gender;
-            existing.BirthDate = employee.BirthDate;
+
+            // -----------------------------------------------------
+            // Update employee information
+            // -----------------------------------------------------
+
+            existingEmployee.FirstName =
+                employee.FirstName;
+
+            existingEmployee.LastName =
+                employee.LastName;
+
+            existingEmployee.DepartmentId =
+                employee.DepartmentId;
+
+            existingEmployee.Designation =
+                employee.Designation;
+
+            existingEmployee.Email =
+                employee.Email;
+
+            existingEmployee.Phone =
+                employee.Phone;
+
+            existingEmployee.Salary =
+                employee.Salary;
+
+            existingEmployee.Gender =
+                employee.Gender;
+
+            existingEmployee.BirthDate =
+                employee.BirthDate;
+
 
             context.SaveChanges();
 
-            return RedirectToAction("ViewEmployee", new { id = employee.EmployeeId });
-        }
-        public IActionResult SendExam(int applicantId)
-        {
-            var applicant = context.Applicants
-                .Include(a => a.User)
-                .Include(a => a.JobOpening)
-                .FirstOrDefault(a => a.ApplicantId == applicantId);
-
-            if (applicant == null || applicant.User?.Email == null)
-                return NotFound();
-
-            var examLink = Url.Action(
-                "TakeExam",
-                "Exam",
-                new { applicantId },
-                Request.Scheme);
-
-            var mail = new Mail
-            {
-                SenderId = int.Parse(User.FindFirst("UserId")!.Value),
-                ReceiverId = applicant.UserId,
-                Subject = "Online Exam Invitation",
-                Body = $"Please attend your exam using the link below:\n{examLink}",
-                SentDate = DateTime.Now
-            };
-
-
-            SendRealEmail(applicant.User.Email, mail.Subject, mail.Body);
-
-
-            context.Mails.Add(mail);
-            context.SaveChanges();
-
-            return RedirectToAction("Applicants");
-        }
-        private void SendRealEmail(string toEmail, string subject, string body)
-        {
-            var smtp = new SmtpClient
-            {
-                Host = HttpContext.RequestServices
-                    .GetRequiredService<IConfiguration>()["Smtp:Host"]!,
-                Port = 587,
-                EnableSsl = true,
-                Credentials = new NetworkCredential(
-                    "demo@gmail.com",
-                    "xx"
-                )
-            };
-
-            var message = new MailMessage
-            {
-                From = new MailAddress("demo@gmail.com", "ERP System"),
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = false
-            };
-
-            message.To.Add(toEmail);
-
-            smtp.Send(message);
+            return RedirectToAction(
+                nameof(ViewEmployee),
+                new
+                {
+                    id = employee.EmployeeId
+                }
+            );
         }
 
-        public IActionResult Employees()
+        #endregion
+
+
+        // =========================================================
+        // PAYROLL MANAGEMENT
+        // =========================================================
+
+        #region Payroll Management
+
+        // GET: /HR/Payrolls
+        public IActionResult Payrolls()
         {
-            var employees = context.Employees
-                .Include(e => e.User)
-                .Include(e => e.Department)
+            var payrolls = context.PayRolls
+                .Include(p => p.Employee)
                 .ToList();
 
-            return View(employees);
+            return View(payrolls);
         }
 
-        public async Task<IActionResult> GetPayrollByEmployee(int employeeId)
+
+        // GET: /HR/GeneratePayroll
+        public IActionResult GeneratePayroll(int employeeId)
+        {
+            var employee = context.Employees
+                .Find(employeeId);
+
+            if (employee == null)
+                return NotFound();
+
+
+            // -----------------------------------------------------
+            // Calculate payroll
+            // -----------------------------------------------------
+
+            decimal basicSalary = employee.Salary;
+            decimal allowances = 2000;
+            decimal deductions = 500;
+
+            decimal netSalary =
+                basicSalary +
+                allowances -
+                deductions;
+
+
+            // -----------------------------------------------------
+            // Create payroll record
+            // -----------------------------------------------------
+
+            var payroll = new PayRoll
+            {
+                EmployeeId = employee.EmployeeId,
+
+                BasicSalary = basicSalary,
+
+                Allowances = allowances,
+
+                Deductions = deductions,
+
+                NetSalary = netSalary,
+
+                GeneratedDate = DateTime.Now
+            };
+
+
+            // -----------------------------------------------------
+            // Save payroll
+            // -----------------------------------------------------
+
+            context.PayRolls.Add(payroll);
+            context.SaveChanges();
+
+            return RedirectToAction(nameof(Payrolls));
+        }
+
+
+        // GET: /HR/GetPayrollByEmployee
+        public async Task<IActionResult> GetPayrollByEmployee(
+            int employeeId)
         {
             var payrolls = await context.PayRolls
                 .Include(p => p.Employee)
@@ -294,12 +451,15 @@ namespace ERP.Controllers
             return View(payrolls);
         }
 
+
+        // GET: /HR/PayslipDetails
         public IActionResult PayslipDetails(int id)
         {
             var payroll = context.PayRolls
                 .Include(p => p.Employee)
                     .ThenInclude(e => e!.Department)
-                .FirstOrDefault(p => p.PayRollId == id);
+                .FirstOrDefault(p =>
+                    p.PayRollId == id);
 
             if (payroll == null)
                 return NotFound();
@@ -307,6 +467,57 @@ namespace ERP.Controllers
             return View(payroll);
         }
 
+        #endregion
 
+
+        // =========================================================
+        // EMAIL / SMTP
+        // =========================================================
+
+        #region Email / SMTP
+
+        private void SendRealEmail(
+            string toEmail,
+            string subject,
+            string body)
+        {
+            var smtp = new SmtpClient
+            {
+                Host = HttpContext.RequestServices
+                    .GetRequiredService<IConfiguration>()
+                    ["Smtp:Host"]!,
+
+                Port = 587,
+
+                EnableSsl = true,
+
+                Credentials = new NetworkCredential(
+                    "demo@gmail.com",
+                    "xx"
+                )
+            };
+
+
+            var message = new MailMessage
+            {
+                From = new MailAddress(
+                    "demo@gmail.com",
+                    "ERP System"
+                ),
+
+                Subject = subject,
+
+                Body = body,
+
+                IsBodyHtml = false
+            };
+
+
+            message.To.Add(toEmail);
+
+            smtp.Send(message);
+        }
+
+        #endregion
     }
 }

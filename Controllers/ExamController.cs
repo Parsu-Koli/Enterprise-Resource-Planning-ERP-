@@ -11,6 +11,7 @@ namespace ERP.Controllers
     {
         private readonly ERPDbContext context = context;
 
+        #region Take Exam 
         public IActionResult TakeExam(int applicantId)
         {
             var applicant = context.Applicants
@@ -70,5 +71,7 @@ namespace ERP.Controllers
 
             return RedirectToAction("Inbox", "Mail");
         }
+
+        #endregion
     }
 }

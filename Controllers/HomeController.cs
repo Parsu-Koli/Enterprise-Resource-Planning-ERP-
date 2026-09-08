@@ -8,6 +8,8 @@ namespace ERP.Controllers
     {
         private readonly ILogger<HomeController> _logger = logger;
 
+        #region Home Page
+
         public IActionResult Index()
         {
             return View();
@@ -23,5 +25,7 @@ namespace ERP.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        #endregion
     }
 }

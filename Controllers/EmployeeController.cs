@@ -9,31 +9,39 @@ namespace ERP.Controllers
     [Authorize(Roles = "Employee")]
     public class EmployeeController(ERPDbContext context) : Controller
     {
+        #region Dashboard
+
         public IActionResult Dashboard()
         {
             return View();
         }
+
+        #endregion
+
+        #region Profile
 
         public IActionResult Profile()
         {
             int userId = int.Parse(User.FindFirst("UserId")!.Value);
 
             var employee = context.Employees
-                                  .Include(e => e.Department)
-                                  .FirstOrDefault(e => e.UserId == userId);
+                .Include(e => e.Department)
+                .FirstOrDefault(e => e.UserId == userId);
 
             if (employee == null)
                 return Content("No Employee record found for this user.");
 
             var applicant = context.Applicants
-                                   .FirstOrDefault(a => a.UserId == userId);
+                .FirstOrDefault(a => a.UserId == userId);
 
             ViewBag.ResumePath = applicant?.ResumePath;
 
             return View(employee);
         }
 
+        #endregion
 
+        #region Leave Management
 
         public IActionResult MyLeaves()
         {
@@ -50,14 +58,14 @@ namespace ERP.Controllers
         {
             int userId = int.Parse(User.FindFirst("UserId")!.Value);
 
-            // Find the employee linked to this user
-            var employee = context.Employees.FirstOrDefault(e => e.UserId == userId);
+            var employee = context.Employees
+                .FirstOrDefault(e => e.UserId == userId);
+
             if (employee == null)
             {
                 return Content("No employee record found. Please contact admin.");
             }
 
-            // Set EmployeeId correctly
             leave.EmployeeId = employee.EmployeeId;
             leave.Status = "Pending";
             leave.AppliedDate = DateTime.Now;
@@ -68,6 +76,9 @@ namespace ERP.Controllers
             return RedirectToAction(nameof(MyLeaves));
         }
 
+        #endregion
+
+        #region Salary Management
 
         public IActionResult MySalary()
         {
@@ -79,23 +90,23 @@ namespace ERP.Controllers
             int userId = int.Parse(claim.Value);
 
             var employeeId = context.Employees
-                                    .Where(e => e.UserId == userId)
-                                    .Select(e => e.EmployeeId)
-                                    .FirstOrDefault();
+                .Where(e => e.UserId == userId)
+                .Select(e => e.EmployeeId)
+                .FirstOrDefault();
 
             if (employeeId == 0)
             {
-                return Content("No Employee record found for this logged-in user. Salary cannot be loaded.");
+                return Content(
+                    "No Employee record found for this logged-in user. Salary cannot be loaded.");
             }
 
             var salaries = context.PayRolls
-                                  .Where(p => p.EmployeeId == employeeId)
-                                  .OrderByDescending(p => p.GeneratedDate)
-                                  .ToList();
+                .Where(p => p.EmployeeId == employeeId)
+                .OrderByDescending(p => p.GeneratedDate)
+                .ToList();
 
             return View(salaries);
         }
-
 
         public IActionResult PayslipDetails(int id)
         {
@@ -110,6 +121,6 @@ namespace ERP.Controllers
             return View(payroll);
         }
 
+        #endregion
     }
-
 }

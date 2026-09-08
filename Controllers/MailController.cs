@@ -10,6 +10,7 @@ namespace ERP.Controllers
     [Authorize]
     public class MailController(ERPDbContext context, IConfiguration config) : Controller
     {
+        #region Inbox Views
         public IActionResult Inbox()
         {
             int userId = int.Parse(User.FindFirst("UserId")!.Value);
@@ -20,6 +21,10 @@ namespace ERP.Controllers
         {
             return View();
         }
+
+        #endregion
+
+        #region Mail Credintional & Send 
 
         [HttpPost]
         public IActionResult Send(Mail mail)
@@ -72,5 +77,7 @@ namespace ERP.Controllers
 
             smtp.Send(message); 
         }
+
+        #endregion
     }
 }
