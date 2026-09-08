@@ -1,0 +1,342 @@
+﻿@model ERP.Models.PayRoll
+@{
+    ViewData["Title"] = "Payslip";
+
+    /* ==============================================================
+       COMPANY DETAILS
+       Change these once, here, and they update on every payslip.
+       ============================================================== */
+    string companyName = "Nexora Technologies Pvt. Ltd.";
+    string companyAddress = "4th Floor, Orion Business Park, Baner Road, Pune, Maharashtra 411045";
+    string companyEmail = "hr@nexora.com";
+    string companyPhone = "+91 20 4567 8900";
+
+    var emp = Model.Employee;
+    string empName = emp != null ? $"{emp.FirstName} {emp.LastName}" : "-";
+    string empDept = emp?.Department?.DepartmentName ?? "-";
+    string empDesig = string.IsNullOrWhiteSpace(emp?.Designation) ? "-" : emp!.Designation;
+    string payPeriod = Model.GeneratedDate.ToString("MMMM yyyy");
+
+    decimal grossEarnings = Model.BasicSalary + Model.Allowances;
+}
+
+<style>
+
+    .payslip-page {
+        max-width: 820px;
+        margin: 40px auto;
+        padding: 0 16px;
+    }
+
+    .payslip-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+    .payslip-sheet {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    }
+
+    .payslip-letterhead {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 32px 36px 24px;
+        border-bottom: 2px solid #1d4ed8;
+    }
+
+    .company-mark {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .company-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex: none;
+    }
+
+    .company-name {
+        font-weight: 800;
+        font-size: 1.15rem;
+        color: #0f172a;
+        line-height: 1.3;
+    }
+
+    .company-meta {
+        font-size: .78rem;
+        color: #64748b;
+        line-height: 1.5;
+        max-width: 280px;
+    }
+
+    .payslip-tag {
+        text-align: right;
+    }
+
+        .payslip-tag .label {
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: #1d4ed8;
+        }
+
+        .payslip-tag .period {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-top: 2px;
+        }
+
+        .payslip-tag .slip-id {
+            font-size: .74rem;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+
+    .emp-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px 32px;
+        padding: 26px 36px;
+        background: #f8fafc;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .emp-field .k {
+        font-size: .72rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        margin-bottom: 2px;
+    }
+
+    .emp-field .v {
+        font-size: .92rem;
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .pay-tables {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        padding: 30px 36px 10px;
+    }
+
+    .pay-col h6 {
+        font-size: .78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: #64748b;
+        margin-bottom: 12px;
+    }
+
+    .pay-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 9px 0;
+        border-bottom: 1px dashed #e5e7eb;
+        font-size: .9rem;
+    }
+
+        .pay-row .amt {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+    .pay-col.earnings {
+        padding-right: 24px;
+        border-right: 1px solid #e5e7eb;
+    }
+
+    .pay-col.deductions {
+        padding-left: 24px;
+    }
+
+    .pay-total {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 12px;
+        font-size: .9rem;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .net-pay-bar {
+        margin: 24px 36px 32px;
+        background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+        border-radius: 12px;
+        padding: 18px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #fff;
+    }
+
+        .net-pay-bar .lbl {
+            font-size: .82rem;
+            opacity: .85;
+        }
+
+        .net-pay-bar .amt {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+    .payslip-footer {
+        padding: 18px 36px 30px;
+        font-size: .76rem;
+        color: #94a3b8;
+        text-align: center;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    @@media (max-width: 640px) {
+        .emp-grid, .pay-tables {
+            grid-template-columns: 1fr;
+        }
+
+        .pay-col.earnings {
+            border-right: none;
+            border-bottom: 1px solid #e5e7eb;
+            padding-right: 0;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+        }
+
+        .pay-col.deductions {
+            padding-left: 0;
+        }
+
+        .payslip-letterhead {
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .payslip-tag {
+            text-align: left;
+        }
+    }
+
+    @@media print {
+        .payslip-toolbar {
+            display: none;
+        }
+
+        body {
+            background: #fff;
+        }
+
+        .payslip-sheet {
+            box-shadow: none;
+            border: none;
+        }
+    }
+
+</style>
+
+<div class="payslip-page">
+
+    <div class="payslip-toolbar">
+        <a asp-action="MySalary" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Back to Payroll Records
+        </a>
+        <button onclick="window.print()" class="btn btn-primary btn-sm">
+            <i class="bi bi-printer me-1"></i> Print / Download
+        </button>
+    </div>
+
+    <div class="payslip-sheet">
+
+        <!-- Letterhead -->
+        <div class="payslip-letterhead">
+            <div class="company-mark">
+                <div class="company-logo"><i class="bi bi-buildings-fill"></i></div>
+                <div>
+                    <div class="company-name">@companyName</div>
+                    <div class="company-meta">
+                        @companyAddress<br />
+                        @companyEmail &nbsp;·&nbsp; @companyPhone
+                    </div>
+                </div>
+            </div>
+            <div class="payslip-tag">
+                <div class="label">Payslip</div>
+                <div class="period">@payPeriod</div>
+                <div class="slip-id">Slip #PS-@Model.PayRollId.ToString("D5")</div>
+            </div>
+        </div>
+
+        <!-- Employee details -->
+        <div class="emp-grid">
+            <div class="emp-field">
+                <div class="k">Employee Name</div>
+                <div class="v">@empName</div>
+            </div>
+            <div class="emp-field">
+                <div class="k">Employee ID</div>
+                <div class="v">EMP-@Model.EmployeeId.ToString("D4")</div>
+            </div>
+            <div class="emp-field">
+                <div class="k">Designation</div>
+                <div class="v">@empDesig</div>
+            </div>
+            <div class="emp-field">
+                <div class="k">Department</div>
+                <div class="v">@empDept</div>
+            </div>
+            <div class="emp-field">
+                <div class="k">Pay Period</div>
+                <div class="v">@payPeriod</div>
+            </div>
+            <div class="emp-field">
+                <div class="k">Generated On</div>
+                <div class="v">@Model.GeneratedDate.ToString("dd MMM yyyy")</div>
+            </div>
+        </div>
+
+        <!-- Earnings / Deductions -->
+        <div class="pay-tables">
+            <div class="pay-col earnings">
+                <h6>Earnings</h6>
+                <div class="pay-row"><span>Basic Salary</span><span class="amt">@Model.BasicSalary.ToString("C")</span></div>
+                <div class="pay-row"><span>Allowances</span><span class="amt">@Model.Allowances.ToString("C")</span></div>
+                <div class="pay-total"><span>Gross Earnings</span><span>@grossEarnings.ToString("C")</span></div>
+            </div>
+            <div class="pay-col deductions">
+                <h6>Deductions</h6>
+                <div class="pay-row"><span>Deductions</span><span class="amt">@Model.Deductions.ToString("C")</span></div>
+                <div class="pay-total"><span>Total Deductions</span><span>@Model.Deductions.ToString("C")</span></div>
+            </div>
+        </div>
+
+        <!-- Net pay -->
+        <div class="net-pay-bar">
+            <span class="lbl">Net Salary Payable</span>
+            <span class="amt">@Model.NetSalary.ToString("C")</span>
+        </div>
+
+        <div class="payslip-footer">
+            This is a system-generated payslip and does not require a signature.
+        </div>
+
+    </div>
+
+</div>

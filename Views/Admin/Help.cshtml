@@ -1,0 +1,519 @@
+﻿@{
+    ViewData["Title"] = "Admin Help";
+}
+
+<style>
+
+    /* =========================================================
+           ADMIN HELP PAGE
+           Reuses the same color tokens as Home.cshtml
+           (--primary, --primary-dark, --primary-light, --dark, --muted, --border, --card-bg, --success)
+           ========================================================= */
+
+    .help-hero {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        padding: 48px 40px;
+        margin-bottom: 36px;
+        background: linear-gradient(135deg, #0f172a 0%, #172554 45%, #1d4ed8 100%);
+        color: #fff;
+        box-shadow: 0 15px 40px rgba(15, 23, 42, .18);
+    }
+
+        .help-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 85% 15%, rgba(255,255,255,.12), transparent 45%);
+            pointer-events: none;
+        }
+
+    .help-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.18);
+        color: #fff;
+        font-size: .78rem;
+        font-weight: 600;
+        letter-spacing: .5px;
+        text-transform: uppercase;
+        padding: 7px 14px;
+        border-radius: 30px;
+    }
+
+    .help-title {
+        font-size: 2.1rem;
+        font-weight: 800;
+        margin: 18px 0 12px;
+        line-height: 1.25;
+    }
+
+    .help-subtitle {
+        font-size: 1rem;
+        color: rgba(255,255,255,.78);
+        max-width: 640px;
+        margin-bottom: 0;
+    }
+
+    /* Stat strip */
+
+    .stat-card {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px 16px;
+        background: var(--card-bg);
+        text-align: center;
+        height: 100%;
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--dark);
+    }
+
+    .stat-label {
+        font-size: .76rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        font-weight: 600;
+    }
+
+    /* Section headings */
+
+    .section-eyebrow {
+        color: var(--primary);
+        font-weight: 700;
+        font-size: .78rem;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--dark);
+        margin-top: 6px;
+        margin-bottom: 8px;
+    }
+
+    .section-desc {
+        color: var(--muted);
+        max-width: 640px;
+    }
+
+    /* Access cards (reuses module-card pattern from Home) */
+
+    .access-card {
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--card-bg);
+        padding: 24px;
+        height: 100%;
+        transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+
+        .access-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(15,23,42,.09);
+            border-color: #dbeafe;
+        }
+
+    .access-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.35rem;
+        margin-bottom: 16px;
+        color: #fff;
+    }
+
+    .icon-dept {
+        background: linear-gradient(135deg, #475569, #1e293b);
+    }
+
+    .icon-createhr {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    }
+
+    .icon-hrmgmt {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+    }
+
+    .icon-emp {
+        background: linear-gradient(135deg, #16a34a, #15803d);
+    }
+
+    .icon-leave {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .access-title {
+        font-weight: 700;
+        font-size: 1.02rem;
+        color: var(--dark);
+        margin-bottom: 6px;
+    }
+
+    .access-desc {
+        color: var(--muted);
+        font-size: .87rem;
+        margin-bottom: 14px;
+    }
+
+    .access-link {
+        font-size: .85rem;
+        font-weight: 600;
+        color: var(--primary);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+        .access-link:hover {
+            color: var(--primary-dark);
+            gap: 9px;
+        }
+
+    /* Recommended flow */
+
+    .flow-card {
+        background: var(--primary-light);
+        border: 1px solid #dbeafe;
+        border-radius: 16px;
+        padding: 26px;
+    }
+
+    .flow-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+
+        .flow-item:last-child {
+            margin-bottom: 0;
+        }
+
+    .flow-num {
+        width: 28px;
+        height: 28px;
+        min-width: 28px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: #fff;
+        font-size: .8rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2px;
+    }
+
+    .flow-item strong {
+        display: block;
+        color: var(--dark);
+        font-size: .93rem;
+    }
+
+    .flow-item span {
+        color: var(--muted);
+        font-size: .85rem;
+    }
+
+    /* CTA banner */
+
+    .help-cta {
+        background: linear-gradient(135deg, #1d4ed8, #2563eb);
+        border-radius: 18px;
+        padding: 32px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 18px;
+        margin-top: 44px;
+    }
+
+    .help-cta-title {
+        font-weight: 800;
+        font-size: 1.2rem;
+        margin-bottom: 4px;
+    }
+
+    .help-cta-desc {
+        color: rgba(255,255,255,.82);
+        font-size: .88rem;
+    }
+
+    .help-btn-primary {
+        background: #fff;
+        color: var(--primary-dark);
+        border: none;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+        .help-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,.2);
+            color: var(--primary-dark);
+        }
+
+    @@media (max-width: 767.98px) {
+        .help-hero {
+            padding: 32px 22px;
+        }
+
+        .help-title {
+            font-size: 1.6rem;
+        }
+
+        .help-cta {
+            padding: 24px 20px;
+            justify-content: center;
+            text-align: center;
+        }
+    }
+
+</style>
+
+
+<!-- =========================================================
+     HERO
+========================================================== -->
+
+<section class="help-hero">
+
+    <span class="help-badge">
+        <i class="bi bi-life-preserver"></i>
+        Admin Guide
+    </span>
+
+    <h1 class="help-title">
+        Everything you can do from the Admin panel
+    </h1>
+
+    <p class="help-subtitle">
+        A quick walkthrough of what you have access to as Admin, what each
+        section is for, and the order most admins move through them in.
+    </p>
+
+</section>
+
+
+<!-- =========================================================
+     STAT STRIP
+========================================================== -->
+
+<div class="row g-3 mb-5">
+
+    <div class="col-6 col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Sections You Manage</div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">Full</div>
+            <div class="stat-label">Organization Visibility</div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">Final</div>
+            <div class="stat-label">Leave Approval Authority</div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="stat-card">
+            <div class="stat-number">1</div>
+            <div class="stat-label">Place To Manage It All</div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     WHAT YOU CAN ACCESS
+========================================================== -->
+
+<div class="mb-4">
+    <div class="section-eyebrow">What you can access</div>
+    <div class="section-title">Five sections, all in your control</div>
+    <p class="section-desc">
+        Everything below is available to you as Admin. Click any card to
+        open that section directly.
+    </p>
+</div>
+
+<div class="row g-4 mb-5">
+
+    <div class="col-md-6 col-lg-4">
+        <div class="access-card">
+            <div class="access-icon icon-dept"><i class="bi bi-diagram-3-fill"></i></div>
+            <div class="access-title">Departments</div>
+            <div class="access-desc">
+                Create and manage departments — the organizational structure
+                every HR account and employee is linked to.
+            </div>
+            <a class="access-link" asp-controller="Admin" asp-action="Departments">
+                Manage Departments <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="access-card">
+            <div class="access-icon icon-createhr"><i class="bi bi-person-plus-fill"></i></div>
+            <div class="access-title">Create HR</div>
+            <div class="access-desc">
+                Create a new HR account so your HR team can handle
+                recruitment, onboarding and employee records.
+            </div>
+            <a class="access-link" asp-controller="Admin" asp-action="CreateHr">
+                Create HR Account <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="access-card">
+            <div class="access-icon icon-hrmgmt"><i class="bi bi-person-badge-fill"></i></div>
+            <div class="access-title">HR Management</div>
+            <div class="access-desc">
+                View, edit or remove access for existing HR accounts as your
+                HR team changes over time.
+            </div>
+            <a class="access-link" asp-controller="Admin" asp-action="HRList">
+                Manage HR Accounts <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="access-card">
+            <div class="access-icon icon-emp"><i class="bi bi-people-fill"></i></div>
+            <div class="access-title">Employees</div>
+            <div class="access-desc">
+                Browse the full employee directory built up by your HR team
+                through recruitment and onboarding.
+            </div>
+            <a class="access-link" asp-controller="Admin" asp-action="Employees">
+                View Employees <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="access-card">
+            <div class="access-icon icon-leave"><i class="bi bi-calendar-check-fill"></i></div>
+            <div class="access-title">Leave Requests</div>
+            <div class="access-desc">
+                Review leave requests raised by employees and give the final
+                approval or rejection.
+            </div>
+            <a class="access-link" asp-controller="Admin" asp-action="LeaveRequests">
+                Review Leave Requests <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     RECOMMENDED FLOW
+========================================================== -->
+
+<div class="row g-4 align-items-stretch mb-3">
+
+    <div class="col-lg-5">
+        <div class="section-eyebrow">Recommended flow</div>
+        <div class="section-title">The order most admins follow</div>
+        <p class="section-desc">
+            You can jump into any section any time, but if you're setting
+            things up from scratch, this is the order that makes sense.
+        </p>
+    </div>
+
+    <div class="col-lg-7">
+        <div class="flow-card">
+
+            <div class="flow-item">
+                <div class="flow-num">1</div>
+                <div>
+                    <strong>Set up Departments</strong>
+                    <span>Build the organizational structure first — everything else links back to it.</span>
+                </div>
+            </div>
+
+            <div class="flow-item">
+                <div class="flow-num">2</div>
+                <div>
+                    <strong>Create HR accounts</strong>
+                    <span>Give your HR team access so they can start recruiting and onboarding.</span>
+                </div>
+            </div>
+
+            <div class="flow-item">
+                <div class="flow-num">3</div>
+                <div>
+                    <strong>Keep HR Management up to date</strong>
+                    <span>Edit or remove HR access as your team changes.</span>
+                </div>
+            </div>
+
+            <div class="flow-item">
+                <div class="flow-num">4</div>
+                <div>
+                    <strong>Check the Employees list</strong>
+                    <span>See new hires appear here as HR completes onboarding.</span>
+                </div>
+            </div>
+
+            <div class="flow-item">
+                <div class="flow-num">5</div>
+                <div>
+                    <strong>Approve Leave Requests</strong>
+                    <span>Give the final sign-off on leave requests employees raise.</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     CTA BANNER
+========================================================== -->
+
+<div class="help-cta">
+
+    <div>
+        <div class="help-cta-title">Ready to get back to work?</div>
+        <div class="help-cta-desc">Head back to your dashboard to pick up where you left off.</div>
+    </div>
+
+    <a class="btn help-btn-primary" asp-controller="Admin" asp-action="Dashboard">
+        <i class="bi bi-speedometer2 me-1"></i> Back to Dashboard
+    </a>
+
+</div>

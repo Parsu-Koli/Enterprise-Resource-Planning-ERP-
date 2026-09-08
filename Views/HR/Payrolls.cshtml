@@ -26,6 +26,7 @@
                         <th>Deductions</th>
                         <th>Net Salary</th>
                         <th>Date</th>
+                        <th>Payment Slip</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +39,16 @@
                             <td>@p.Deductions.ToString("C")</td>
                             <td class="fw-bold text-success">@p.NetSalary.ToString("C")</td>
                             <td>@p.GeneratedDate.ToShortDateString()</td>
+                            <td>
+                                <a asp-action="PayslipDetails"
+                                   asp-route-id="@p.PayRollId"
+                                   class="btn btn-sm btn-outline-primary">
+
+                                    <i class="bi bi-receipt me-1"></i>
+                                    View Slip
+
+                                </a>
+                            </td>
                         </tr>
                     }
                 </tbody>

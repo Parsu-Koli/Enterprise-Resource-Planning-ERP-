@@ -97,6 +97,19 @@ namespace ERP.Controllers
         }
 
 
+        public IActionResult PayslipDetails(int id)
+        {
+            var payroll = context.PayRolls
+                .Include(p => p.Employee)
+                    .ThenInclude(e => e!.Department)
+                .FirstOrDefault(p => p.PayRollId == id);
+
+            if (payroll == null)
+                return NotFound();
+
+            return View(payroll);
+        }
+
     }
 
 }

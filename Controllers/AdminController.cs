@@ -14,6 +14,10 @@ namespace ERP.Controllers
             return View();
         }
 
+        public IActionResult Help()
+        {
+            return View();
+        }
         public IActionResult Departments()
         {
             return View(context.Departments.ToList());

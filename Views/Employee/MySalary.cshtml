@@ -193,6 +193,10 @@
                                     Net Salary
                                 </th>
 
+                                <th class="text-end pe-4">
+                                    Payslip
+                                </th>
+
                             </tr>
 
                         </thead>
@@ -246,6 +250,19 @@
                                             ₹ @item.NetSalary.ToString("N2")
 
                                         </span>
+
+                                    </td>
+
+                                    <td class="text-end pe-4">
+
+                                        <a asp-action="PayslipDetails"
+                                           asp-route-id="@item.PayRollId"
+                                           class="btn btn-sm btn-outline-primary">
+
+                                            <i class="bi bi-receipt me-1"></i>
+                                            View Slip
+
+                                        </a>
 
                                     </td>
 

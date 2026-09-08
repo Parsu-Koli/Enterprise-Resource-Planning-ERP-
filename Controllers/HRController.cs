@@ -256,14 +256,14 @@ namespace ERP.Controllers
                 Port = 587,
                 EnableSsl = true,
                 Credentials = new NetworkCredential(
-                    "koliprashant11112@gmail.com",
-                    "vdngpzmyrwtoapbk"
+                    "demo@gmail.com",
+                    "xx"
                 )
             };
 
             var message = new MailMessage
             {
-                From = new MailAddress("koliprashant11112@gmail.com", "ERP System"),
+                From = new MailAddress("demo@gmail.com", "ERP System"),
                 Subject = subject,
                 Body = body,
                 IsBodyHtml = false
@@ -294,7 +294,18 @@ namespace ERP.Controllers
             return View(payrolls);
         }
 
+        public IActionResult PayslipDetails(int id)
+        {
+            var payroll = context.PayRolls
+                .Include(p => p.Employee)
+                    .ThenInclude(e => e!.Department)
+                .FirstOrDefault(p => p.PayRollId == id);
 
+            if (payroll == null)
+                return NotFound();
+
+            return View(payroll);
+        }
 
 
     }
