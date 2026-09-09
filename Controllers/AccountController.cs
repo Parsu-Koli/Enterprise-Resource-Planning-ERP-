@@ -164,7 +164,7 @@ namespace ERP.Controllers
             user.PasswordHash = user.PasswordHash;
             user.Role = user.Role;
             user.IsActive = true;
-            user.CreatedDate = DateTime.Now;
+            user.CreatedDate = DateTime.UtcNow;
 
 
             // -----------------------------------------------------

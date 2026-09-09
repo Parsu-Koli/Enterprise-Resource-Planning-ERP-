@@ -52,7 +52,7 @@ namespace ERP.Controllers
         [HttpPost]
         public IActionResult CreateJob(JobOpening job)
         {
-            job.PostedDate = DateTime.Now;
+            job.PostedDate = DateTime.UtcNow;
             job.IsActive = true;
 
             context.JobOpenings.Add(job);
@@ -125,7 +125,7 @@ namespace ERP.Controllers
                 ReceiverId = applicant.UserId,
                 Subject = "Online Exam Invitation",
                 Body = $"Please attend your exam using the link below:\n{examLink}",
-                SentDate = DateTime.Now
+                SentDate = DateTime.UtcNow
             };
 
             // Send actual email
@@ -208,7 +208,7 @@ namespace ERP.Controllers
             var employee = new Employee
             {
                 Email = applicant.User!.Email,
-                DateOfJoining = DateTime.Now
+                DateOfJoining = DateTime.UtcNow
             };
 
             return View(employee);
@@ -424,7 +424,7 @@ namespace ERP.Controllers
 
                 NetSalary = netSalary,
 
-                GeneratedDate = DateTime.Now
+                GeneratedDate = DateTime.UtcNow
             };
 
 

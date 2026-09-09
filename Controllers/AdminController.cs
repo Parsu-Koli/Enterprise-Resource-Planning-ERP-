@@ -56,7 +56,7 @@ namespace ERP.Controllers
         public IActionResult CreateDepartment(
             Department department)
         {
-            department.CreatedDate = DateTime.Now;
+            department.CreatedDate = DateTime.UtcNow;
 
             context.Departments.Add(department);
             context.SaveChanges();
@@ -178,7 +178,7 @@ namespace ERP.Controllers
 
                 IsActive = true,
 
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.UtcNow
             };
 
 

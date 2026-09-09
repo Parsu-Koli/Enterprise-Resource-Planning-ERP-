@@ -68,7 +68,7 @@ namespace ERP.Controllers
 
             leave.EmployeeId = employee.EmployeeId;
             leave.Status = "Pending";
-            leave.AppliedDate = DateTime.Now;
+            leave.AppliedDate = DateTime.UtcNow;
 
             context.Leaves.Add(leave);
             context.SaveChanges();

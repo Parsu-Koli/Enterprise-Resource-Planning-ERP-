@@ -63,7 +63,7 @@ namespace ERP.Controllers
                 ReceiverId = applicant.UserId,
                 Subject = "Exam Result",
                 Body = $"Your score: {score}\nStatus: {applicant.Status}",
-                SentDate = DateTime.Now
+                SentDate = DateTime.UtcNow
             };
 
             context.Mails.Add(mail);

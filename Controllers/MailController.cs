@@ -31,7 +31,7 @@ namespace ERP.Controllers
         {
             int senderId = int.Parse(User.FindFirst("UserId")!.Value);
             mail.SenderId = senderId;
-            mail.SentDate = DateTime.Now;
+            mail.SentDate = DateTime.UtcNow;
 
             try
             {
