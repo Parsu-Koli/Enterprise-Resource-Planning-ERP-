@@ -171,8 +171,7 @@ namespace ERP.Controllers
                 UserName = userName,
                 Email = email,
 
-                PasswordHash =
-                    BCrypt.Net.BCrypt.HashPassword(password),
+                PasswordHash = password,    
 
                 Role = "HR",
 
